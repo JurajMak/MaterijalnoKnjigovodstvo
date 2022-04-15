@@ -5,8 +5,10 @@
 package zavrsni.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -15,11 +17,9 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Otpremnica extends Entitet{
-   @ManyToOne 
-   @JoinColumn(name = "roba")
-   private Roba roba;
+   @ManyToMany   
+   private List<Roba> roba;
    @ManyToOne
-   @JoinColumn(name = "ira")
    private Ira ira;
    private BigDecimal cijena;
    private String brojOtpremnice;
@@ -49,13 +49,17 @@ public class Otpremnica extends Entitet{
    
    private Integer kolicina;
 
-    public Roba getRoba() {
+    public List<Roba> getRoba() {
         return roba;
     }
 
-    public void setRoba(Roba roba) {
+    public void setRoba(List<Roba> roba) {
         this.roba = roba;
     }
+
+ 
+   
+ 
 
     public Ira getIra() {
         return ira;

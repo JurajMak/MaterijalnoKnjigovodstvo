@@ -121,16 +121,20 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="cmbDobavljac" min="-2" pref="195" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnSpremi" min="-2" pref="83" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmbUra" min="-2" pref="130" max="-2" attributes="0"/>
+                                          <Component id="txtOtpPrm" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace pref="235" max="32767" attributes="0"/>
-                                      <Component id="btnSpremi" min="-2" pref="83" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -170,7 +174,7 @@
                   <Component id="txtKolicina" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtCijena" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cmbDobavljac" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbUra" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtOtpPrm" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -209,6 +213,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lstRobaMouseClicked"/>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="lstRobaValueChanged"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Roba&gt;"/>
@@ -301,7 +306,7 @@
                 <Column editable="false" title="Koli&#x10d;ina" type="java.lang.Object"/>
                 <Column editable="false" title="M.Jed" type="java.lang.Object"/>
                 <Column editable="false" title="Cijena" type="java.lang.Object"/>
-                <Column editable="false" title="Br.Ura" type="java.lang.Object"/>
+                <Column editable="false" title="Otp-Primka" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -353,19 +358,9 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="cmbUra">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Ura&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Broj Ra&#x10d;una"/>
+        <Property name="text" type="java.lang.String" value="Otp-Primka"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnPovratak">
@@ -374,6 +369,11 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPovratakActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtOtpPrm">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtOtpPrmActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

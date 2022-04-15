@@ -13,6 +13,7 @@ import zavrsni.model.Otpremnica;
 import zavrsni.model.Partner;
 import zavrsni.model.Primka;
 import zavrsni.model.Roba;
+import zavrsni.model.RobaPrimka;
 import zavrsni.model.Ura;
 
 /**
@@ -39,41 +40,48 @@ public class PocetniInsert {
         Roba r;
         Otpremnica ot;
         Ira ir;
+       
         for (int i = 0; i < partneri.size(); i++) {
             p = partneri.get(i);
-            r = robe.get(i);
+              r = robe.get(i);
+              
             for (int j = 0; j < ((int) Math.random() * (5 - 2) + 1); j++) {
                 u = new Ura();
                 pr = new Primka();
                 ot = new Otpremnica();
                 ir = new Ira();
+                
                 u.setPartner(p);
                 u.setBrojRacuna("0" + (i + 1) + "/2022");
                 u.setDatumDospijeca(new Date());
                 u.setDatumIzdavanja(new Date());
                 u.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
-                pr.setCijena(new BigDecimal(Math.random() * (40 - 10) + 10));
+                pr.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 pr.setKolicina(faker.number().numberBetween(10, 100));
-                pr.setUra(u);
-                pr.setRoba(r);
+                pr.setUra(u);               
+                pr.setRoba(robe);
+                pr.setOtpremnicaPrimka("0"+(i+1));
                 ir.setBrojRacuna("0" + (i + 1) + "/2022");
                 ir.setDatumDospijeca(new Date());
                 ir.setDatumIzdavanja(new Date());
                 ir.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ir.setPartner(p);
-                ot.setCijena(new BigDecimal(Math.random() * (40 - 10) + 10));
+                ot.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ot.setKolicina(faker.number().numberBetween(10, 100));
                 ot.setBrojOtpremnice("0" + (i + 1) + "/2022");
                 ot.setIra(ir);
-                ot.setRoba(r);
+                ot.setRoba(robe);
+             
+             
                 session.save(u);
                 session.save(pr);
                 session.save(ir);
                 session.save(ot);
+            
             }
-
+               
         }
-
+         
         session.getTransaction().commit();
     }
 
@@ -85,7 +93,7 @@ public class PocetniInsert {
             p = new Partner();
             p.setNaziv(faker.company().name());
             p.setAdresa(faker.address().fullAddress());
-            p.setOib(OibGenerator.generirajOib(null));
+            p.setOib(ZavrsniUtil.generirajBoljiOib());
             session.save(p);
             partneri.add(p);
 
@@ -97,7 +105,7 @@ public class PocetniInsert {
         List<Roba> roba = new ArrayList();
         Roba r;
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
             r = new Roba();
             r.setNaziv(faker.beer().name());
             r.setCijena(new BigDecimal(Math.random() * (40 - 10) + 10));

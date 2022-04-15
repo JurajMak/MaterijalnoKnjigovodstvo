@@ -8,6 +8,7 @@ package zavrsni.model;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -20,15 +21,16 @@ public class Roba extends Entitet{
     private Integer kolicina;
     private String mjernaJedinica;
     private BigDecimal cijena;
-    
-    @OneToMany(mappedBy = "roba")
-    private List<Primka> primka;
+  
+    @ManyToMany(mappedBy = "roba")
+    private List<Primka> primka; 
+  
 
     public Roba(){
         
     }
     
-    
+  /*  
     public Roba(String naziv, Integer kolicina, String mjernaJedinica, BigDecimal cijena) {
         super();
         this.naziv = naziv;
@@ -37,7 +39,7 @@ public class Roba extends Entitet{
         this.cijena = cijena;
         
     }
-
+*/
   
 
     public String getNaziv() {
@@ -72,7 +74,6 @@ public class Roba extends Entitet{
         this.cijena = cijena;
     }
 
-
     public List<Primka> getPrimka() {
         return primka;
     }
@@ -80,6 +81,13 @@ public class Roba extends Entitet{
     public void setPrimka(List<Primka> primka) {
         this.primka = primka;
     }
+
+ 
+
+ 
+
+
+  
 
     @Override
     public String toString() {

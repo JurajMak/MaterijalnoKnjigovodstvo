@@ -20,6 +20,7 @@ public class ObradaUra extends Obrada<Ura>{
     @Override
     protected void kontrolaCreate() throws ZavrsniException {
         kontrolaUre();
+        kontrolaBrojRacuna();
     }
 
     @Override
@@ -33,12 +34,7 @@ public class ObradaUra extends Obrada<Ura>{
     
     
     private void kontrolaUre()throws ZavrsniException{
-        List<Ura> racun = session.createQuery("from Ura u " + "where u.brojRacuna=:brojRacuna")
-                .setParameter("brojRacuna", entitet.getBrojRacuna()).list();
-        
-        if(racun!= null && !racun.isEmpty()){
-            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getBrojRacuna());
-        }
+      
         
         if(entitet.getBrojRacuna()==null || entitet.getBrojRacuna().trim().isEmpty()){
             throw new ZavrsniException("Obavezan unos broja racuna");
@@ -61,5 +57,15 @@ public class ObradaUra extends Obrada<Ura>{
        
     
     
+    }
+    
+    
+    private void kontrolaBrojRacuna() throws ZavrsniException{
+          List<Ura> racun = session.createQuery("from Ura u " + "where u.brojRacuna=:brojRacuna")
+                .setParameter("brojRacuna", entitet.getBrojRacuna()).list();
+        
+        if(racun!= null && !racun.isEmpty()){
+            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getBrojRacuna());
+        }
     }
 }

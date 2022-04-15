@@ -39,5 +39,7 @@
         <mapping class="zavrsni.model.Otpremnica" />
         <mapping class="zavrsni.model.Ira" />
         <mapping class="zavrsni.model.Operater" />
+       
+        
     </session-factory>
 </hibernate-configuration>

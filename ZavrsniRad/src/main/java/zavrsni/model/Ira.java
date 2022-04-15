@@ -17,8 +17,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Ira extends Entitet{
     
-    @ManyToOne
-    @JoinColumn(name="partner")
+    @ManyToOne   
     private Partner partner;
     private String brojRacuna;
     private BigDecimal iznos;

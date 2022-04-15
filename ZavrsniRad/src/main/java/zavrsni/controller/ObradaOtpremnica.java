@@ -4,6 +4,7 @@
  */
 package zavrsni.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import zavrsni.model.Otpremnica;
 import zavrsni.util.ZavrsniException;
@@ -35,20 +36,21 @@ public class ObradaOtpremnica extends Obrada<Otpremnica> {
     }
 
     private void kontrolaOtpremnice() throws ZavrsniException {
-
- /*       if (entitet.getIra() == null) {
-
-            throw new ZavrsniException("Broj Ire obavezan");
-
-        } */
+        
+           List<Otpremnica> racun = session.createQuery("from Otpremnica u " + "where u.brojOtpremnice=:brojOtpremnice")
+                .setParameter("brojOtpremnice", entitet.getBrojOtpremnice()).list();
+        
+        if(racun!= null && !racun.isEmpty()){
+            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getBrojOtpremnice()); }
+        
+ 
         if (entitet.getKolicina() == 0 || entitet.getKolicina() == null) {
             throw new ZavrsniException("Obavezan unos količine!");
         }
-
-        if (entitet.getRoba() == null) {
-            throw new ZavrsniException("Obavezan unos sifre robe");
-
+          if(entitet.getCijena()== null || entitet.getCijena().compareTo(BigDecimal.ZERO)<0){
+            throw new ZavrsniException("Obavezan unos cijene robe");
         }
+       
     }
 
 }

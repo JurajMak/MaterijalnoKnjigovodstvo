@@ -1,4 +1,3 @@
-
 package zavrsni.view;
 
 import java.awt.event.KeyEvent;
@@ -7,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +22,9 @@ import javax.swing.table.DefaultTableModel;
 import zavrsni.controller.ObradaPartner;
 import zavrsni.controller.ObradaPrimka;
 import zavrsni.controller.ObradaRoba;
-import zavrsni.controller.ObradaUra;
 import zavrsni.model.Partner;
 import zavrsni.model.Primka;
 import zavrsni.model.Roba;
-import zavrsni.model.Ura;
 import zavrsni.util.ZavrsniException;
 import zavrsni.util.ZavrsniUtil;
 
@@ -40,24 +38,23 @@ public class NovaPrimka extends javax.swing.JFrame {
     private DefaultTableModel m;
     private ObradaRoba roba;
     private DecimalFormat nf;
-
     private SimpleDateFormat df;
+    private BigDecimal iznos = BigDecimal.ZERO;
+    private BigDecimal total = BigDecimal.ZERO;
+    private List<Roba> robe = new ArrayList<Roba>();
 
     public NovaPrimka() {
         initComponents();
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
-        Roba  ro = new Roba();
+
         lstRoba.setCellRenderer(new PrikazRoba());
-        
+
         postavke();
-        
         ucitajRobe();
         ucitajDobavljaca();
-        ucitajUru();
         test();
 
-         
     }
 
     private void ucitajRobe() {
@@ -77,12 +74,14 @@ public class NovaPrimka extends javax.swing.JFrame {
     }
 
     private void postavke() {
-  
+        tblDodajPrimku.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
+            //  proba(evt);
+        });
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
 
-        setTitle(ZavrsniUtil.getNaslov("-Nova Primka-"));
+        setTitle(ZavrsniUtil.getNaslov("- Nova Primka -"));
 
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
         Vrijeme v = new Vrijeme();
@@ -108,8 +107,9 @@ public class NovaPrimka extends javax.swing.JFrame {
         txtCijena.setText(null);
         txtKolicina.setText(null);
         primka.setEntitet(null);
+        txtOtpPrm.setText(null);
         cmbDobavljac.setSelectedIndex(0);
-         m.setRowCount(0);
+        m.setRowCount(0);
 
     }
 
@@ -125,60 +125,56 @@ public class NovaPrimka extends javax.swing.JFrame {
         });
         cmbDobavljac.setModel(p);
     }
-    
-      private void ucitajUru() {
-        DefaultComboBoxModel<Ura> u = new DefaultComboBoxModel<>();
-        Ura ura = new Ura();
-        ura.setId(Long.valueOf(0));
-        ura.setBrojRacuna("Nije odabrano");
-
-        u.addElement(ura);
-        new ObradaUra().read().forEach(s -> {
-            u.addElement(s);
-        });
-        cmbUra.setModel(u);
-    }
-    
-    
 
     private void test() {
+
         m = new DefaultTableModel();
         primka = new ObradaPrimka();
-        String[] s = {"Šifra", "Naziv","Dobavljač", "Količina", "M.Jed", "Cijena","Iznos","Br.Rač"};
+        String[] s = {"Šifra", "Naziv", "Dobavljač", "Količina", "M.Jed", "Cijena", "Iznos", "Otp-Prim"};
         for (String i : s) {
             m.addColumn(i);
         }
-        
-       
+
         tblDodajPrimku.setModel(m);
-        
+
     }
-    
-     private void preuzmiVrijednosti() {
+
+    private void preuzmiVrijednosti() {
 
         var p = primka.getEntitet();
-        p.setRoba((Roba) lstRoba.getSelectedValue());
-        p.setUra((Ura) cmbUra.getSelectedItem());
-        
+        //     p.setRoba(lstRoba.getSelectedValuesList());
+
+        p.setOtpremnicaPrimka(txtOtpPrm.getText());
 
         try {
-           
-          p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
-        } catch (Exception e) {
+
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        } catch (ParseException e) {
 
         }
 
         try {
             p.setKolicina(Integer.parseInt(txtKolicina.getText()));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
-        
+
     }
-    
-    
-    
-    
+
+    private void proba(javax.swing.event.ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting() || tblDodajPrimku.getSelectedRow() < 0) {
+            return;
+        }
+
+        List<Primka> entiteti = primka.read();
+        var red = tblPrimka.getSelectedRow();
+        primka.setEntitet(entiteti.get(red));
+        var p = primka.getEntitet();
+
+        txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -201,9 +197,9 @@ public class NovaPrimka extends javax.swing.JFrame {
         jSat = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDodajPrimku = new javax.swing.JTable();
-        cmbUra = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         btnPovratak = new javax.swing.JButton();
+        txtOtpPrm = new javax.swing.JTextField();
 
         tblPrimka.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -233,6 +229,11 @@ public class NovaPrimka extends javax.swing.JFrame {
         lstRoba.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstRobaMouseClicked(evt);
+            }
+        });
+        lstRoba.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstRobaValueChanged(evt);
             }
         });
         jScrollPane4.setViewportView(lstRoba);
@@ -279,7 +280,7 @@ public class NovaPrimka extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Šifra", "Dobavljač", "Naziv", "Količina", "M.Jed", "Cijena", "Br.Ura"
+                "Šifra", "Dobavljač", "Naziv", "Količina", "M.Jed", "Cijena", "Otp-Primka"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -297,12 +298,18 @@ public class NovaPrimka extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblDodajPrimku);
 
-        jLabel6.setText("Broj Računa");
+        jLabel6.setText("Otp-Primka");
 
         btnPovratak.setText("Povratak");
         btnPovratak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPovratakActionPerformed(evt);
+            }
+        });
+
+        txtOtpPrm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOtpPrmActionPerformed(evt);
             }
         });
 
@@ -337,14 +344,17 @@ public class NovaPrimka extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSpremi, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(45, 45, 45)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(cmbUra, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
-                                        .addComponent(btnSpremi, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(txtOtpPrm)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addGap(159, 159, 159)))))
                         .addGap(41, 41, 41))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,7 +383,7 @@ public class NovaPrimka extends javax.swing.JFrame {
                     .addComponent(txtKolicina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbUra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOtpPrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTrazi)
@@ -399,83 +409,100 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTraziActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        
-      if(txtCijena.getText().trim().isEmpty() || txtKolicina.getText().trim().isEmpty() || cmbDobavljac.getItemCount()==0 ||cmbUra.getItemCount()==0){
-          JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
-          return;
-      }
-         
-      
-       if (lstRoba.getSelectedValue() == null) {
-           JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+        /*         
+!ma.matches() || 
+         */
+        primka.setEntitet(new Primka());
+        var p = primka.getEntitet();
+        //   p.setOtpremnicaPrimka(txtOtpPrm.getText());
+        //    p.setRoba(robe);
+        //    p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        //   p.setKolicina((Integer.parseInt(txtKolicina.getText())));
+        //    txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+        //   txtKolicina.setText(p.getKolicina().toString());
+
+        String samobroj = "[,.0-9]+";
+        Pattern pe = Pattern.compile(samobroj);
+        //   Matcher ma = pe.matcher(txtCijena.getText());
+        Matcher mi = pe.matcher(txtKolicina.getText());
+        if (!mi.matches()) {
+            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
             return;
         }
-            
-        
-    
+
+        if (txtKolicina.getText().trim().isEmpty() || cmbDobavljac.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+            return;
+        }
+
+        if (lstRoba.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+            return;
+        }
+
         Object[] red = new Object[8];
         red[0] = lstRoba.getSelectedValue().getId();
         red[1] = lstRoba.getSelectedValue().getNaziv();
-        red[2] = cmbDobavljac.getSelectedItem();        
+        red[2] = cmbDobavljac.getSelectedItem();
         red[3] = Integer.parseInt(txtKolicina.getText());
-        red[4] = lstRoba.getSelectedValue().getMjernaJedinica();       
+        red[4] = lstRoba.getSelectedValue().getMjernaJedinica();
         red[5] = nf.format(new BigDecimal(txtCijena.getText()));
-        
         red[6] = nf.format(new BigDecimal((txtCijena.getText())).multiply(BigDecimal.valueOf(Integer.parseInt(txtKolicina.getText()))));
-        red[7] = cmbUra.getSelectedItem();
-        
+        red[7] = txtOtpPrm.getText();
+
         m.addRow(red);
         tblDodajPrimku.setModel(m);
-         
-        
-        
-        
+        robe.add(lstRoba.getSelectedValue());
+
+
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnSpremiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpremiActionPerformed
-        String samobroj = "[,0-9]+";
-        Pattern pe = Pattern.compile(samobroj);
-        Matcher ma = pe.matcher(txtCijena.getText());
-        Matcher mi = pe.matcher(txtKolicina.getText());
-        if (!ma.matches() && !mi.matches()) {
-            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
-        } 
-        
-          
-    /*         if (tblDodajPrimku.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(getRootPane(), "Odaberite stavku");
-            return;
-       
-          
-        }*/
-        
-            try {
-    
+
+        try {
+
             primka.setEntitet(new Primka());
-            preuzmiVrijednosti();
-           
+
+            var p = primka.getEntitet();
+            p.setOtpremnicaPrimka(txtOtpPrm.getText());
+            p.setRoba(robe);
+            //     p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+            p.setKolicina((Integer.parseInt(txtKolicina.getText())));
+            txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+            txtKolicina.setText(p.getKolicina().toString());
+
+            for (int i = 0, rows = tblDodajPrimku.getRowCount(); i < rows; i++) {
+                Integer kol = (Integer) tblDodajPrimku.getValueAt(i, 3);
+                BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
+                total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
+                //   Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
+                // total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+
+            }
+
+            p.setCijena(total);
+
             primka.create();
             JOptionPane.showMessageDialog(getRootPane(), "Stvorena nova primka pod brojem " + primka.getEntitet().getId() + " !");
-               for (int i = 0; i < tblDodajPrimku.getModel().getRowCount(); i++) {
-            Long id = Long.parseLong(tblDodajPrimku.getModel().getValueAt(i, 0).toString());
-             // Roba r = (Roba)(tblDodajPrimku.getModel().getValueAt(i, 2));
-            Integer kolicina = Integer.parseInt(tblDodajPrimku.getModel().getValueAt(i, 3).toString());
-     //    BigDecimal cijena = new BigDecimal(tblDodajPrimku.getModel().getValueAt(i, 5));
-      //      Ura u = (Ura)(tblDodajPrimku.getModel().getValueAt(i, 6));
-        
-           JOptionPane.showMessageDialog(getRootPane(), "Roba " + lstRoba.getSelectedValue() + " dodana na stanje!");
-          
-            roba.dodavanjeKolicine(id,kolicina);
-      //      primka.dodavanje(id, kolicina, cijena, r, u);
-        }
+            for (int i = 0; i < tblDodajPrimku.getModel().getRowCount(); i++) {
+                Long id = Long.parseLong(tblDodajPrimku.getModel().getValueAt(i, 0).toString());
+                Integer kolicina = Integer.parseInt(tblDodajPrimku.getModel().getValueAt(i, 3).toString());
+                BigDecimal cijena = (BigDecimal) nf.parse((String) tblDodajPrimku.getModel().getValueAt(i, 5));
+                roba.dodavanjeKolicine(id, kolicina, cijena);
+                //  Long cijena = (Long)nf.parse((String)tblDodajPrimku.getModel().getValueAt(i, 5));                
+                //   BigDecimal c = new BigDecimal(cijena);
+                // roba.dodavanjeKolicine(id,kolicina,c);
 
-          
+            }
+            JOptionPane.showMessageDialog(getRootPane(), "Roba dodana na stanje!");
+
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
-        } 
-        
-        
-        
+        } catch (ParseException ex) {
+            Logger.getLogger(NovaPrimka.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnSpremiActionPerformed
 
     private void txtTraziKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTraziKeyPressed
@@ -486,19 +513,19 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTraziKeyPressed
 
     private void lstRobaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstRobaMouseClicked
-        if(evt.getButton()==3){
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_lstRobaMouseClicked
 
     private void tblDodajPrimkuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDodajPrimkuMouseClicked
-      if(evt.getButton()==3){
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_tblDodajPrimkuMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-         if(evt.getButton()==3){
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
@@ -507,6 +534,21 @@ public class NovaPrimka extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnPovratakActionPerformed
 
+    private void txtOtpPrmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOtpPrmActionPerformed
+
+    }//GEN-LAST:event_txtOtpPrmActionPerformed
+
+    private void lstRobaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstRobaValueChanged
+
+    }//GEN-LAST:event_lstRobaValueChanged
+    private boolean postojiRoba(DefaultListModel<Roba> r, Roba p) {
+        for (int i = 0; i < r.size(); i++) {
+            if (r.get(i).getId().equals(p.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
@@ -514,7 +556,6 @@ public class NovaPrimka extends javax.swing.JFrame {
     private javax.swing.JButton btnSpremi;
     private javax.swing.JButton btnTrazi;
     private javax.swing.JComboBox<Partner> cmbDobavljac;
-    private javax.swing.JComboBox<Ura> cmbUra;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -529,6 +570,7 @@ public class NovaPrimka extends javax.swing.JFrame {
     private javax.swing.JTable tblPrimka;
     private javax.swing.JTextField txtCijena;
     private javax.swing.JTextField txtKolicina;
+    private javax.swing.JTextField txtOtpPrm;
     private javax.swing.JTextField txtTrazi;
     // End of variables declaration//GEN-END:variables
 }

@@ -30,7 +30,7 @@ public class ObradaPrimka  extends Obrada<Primka>{
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-      unosPrimke();
+     // unosPrimke();
         
     }
 
@@ -47,30 +47,35 @@ public class ObradaPrimka  extends Obrada<Primka>{
             throw new ZavrsniException("Obavezan unos količine");
         }
         
-        if(entitet.getRoba()== null || entitet.getRoba().getId().equals(Long.valueOf(0))){
-            throw new ZavrsniException("Obavezan unos Robe");
-        }
+          List<Primka> racun = session.createQuery("from Primka u " + "where u.otpremnicaPrimka=:otpremnicaPrimka")
+                .setParameter("otpremnicaPrimka", entitet.getOtpremnicaPrimka()).list();
         
-        if(entitet.getUra()== null || entitet.getUra().getId().equals(Long.valueOf(0))){
-            throw new ZavrsniException("Obavezan broja Ure");
-        }
-        
+        if(racun!= null && !racun.isEmpty()){
+            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getOtpremnicaPrimka()); }
         
         
     }
      
-       public void dodavanje(long id,Integer kolicina,BigDecimal cijena,Roba roba,Ura ura) {
+       public void dodavanje(long id,Ura u) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Primka.class, id);
-        entitet.setKolicina(entitet.getKolicina() - kolicina);
-        entitet.setCijena(cijena);
-        entitet.setRoba(roba);
-        entitet.setUra(ura);
+        entitet.setUra(u);
+    //    entitet.setRoba(robe);
+        
          tr.commit();
     
     }
-    
+
+  
+    public List<Primka> read(String uvjet) {
+        return session.createQuery("from Primka p "
+                + " where concat(p.otpremnicaPrimka) "
+                + " like :uvjet order by p.otpremnicaPrimka")
+                .setParameter("uvjet", "%" + uvjet + "%")
+                .setMaxResults(50)
+                .list();
+    }
     
     
 }

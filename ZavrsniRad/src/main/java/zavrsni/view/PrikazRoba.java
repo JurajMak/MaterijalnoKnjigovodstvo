@@ -41,7 +41,8 @@ public class PrikazRoba extends JLabel implements ListCellRenderer<Roba>{
         
         naziv = value.getNaziv();
     
-        renderer.setText(value.getNaziv()==null ? "Nepoznato" : value.getNaziv());   
+        renderer.setText(value.getNaziv()==null ? "Nepoznato" : value.getNaziv());  
+       
         
         return renderer;
     }

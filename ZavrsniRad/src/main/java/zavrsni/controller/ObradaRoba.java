@@ -62,7 +62,7 @@ public class ObradaRoba extends Obrada<Roba> {
         }
     }
 
-    public void skidanjeKolicine(long id, Integer i/*,BigDecimal cijena*/) {
+    public void skidanjeKolicine(long id, Integer i/*,BigDecimal c*/) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Roba.class, id);
@@ -71,11 +71,12 @@ public class ObradaRoba extends Obrada<Roba> {
 
     }
 
-    public void dodavanjeKolicine(long id, Integer i) {
+    public void dodavanjeKolicine(long id, Integer i,BigDecimal c) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Roba.class, id);
         entitet.setKolicina(i + entitet.getKolicina());
+        entitet.setCijena(c);
         tr.commit();
     }
 

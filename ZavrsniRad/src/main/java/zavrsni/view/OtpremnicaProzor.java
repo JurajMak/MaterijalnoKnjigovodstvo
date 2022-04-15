@@ -134,7 +134,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         var p = otpremnica.getEntitet();
         
         p.setBrojOtpremnice(p.getId()+"/"+txtBrojOtpremnice.getText());
-          p.setRoba((Roba) lstRoba.getSelectedValue());
+      //    p.setRoba((Roba) lstRoba.getSelectedValue());
           p.setIra((Ira) cmbIra.getSelectedItem());
         
       
@@ -479,16 +479,11 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         Pattern pe = Pattern.compile(samobroj);
         Matcher ma = pe.matcher(txtCijena.getText());
         Matcher mi = pe.matcher(txtKolicina.getText());
-        if (!ma.matches() && !mi.matches()) {
+        if (!ma.matches() || !mi.matches()) {
             JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
         } 
         
-        if (tblDodajOtpremnicu.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(getRootPane(), "Odaberite stavku");
-            return;
-        }
-        
-       
+      
         try {
             otpremnica.setEntitet(new Otpremnica());
             preuzmiVrijednosti();

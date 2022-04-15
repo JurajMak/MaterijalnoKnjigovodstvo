@@ -57,10 +57,10 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         for (int i = 0; i < entiteti.size(); i++) {
             red[0] = entiteti.get(i).getId();
             red[1] = entiteti.get(i).getIra().getPartner().getNaziv();
-            red[2] = entiteti.get(i).getRoba().getNaziv();
+            red[2] = entiteti.get(i).getRoba().get(0).getNaziv();
             red[3] = entiteti.get(i).getKolicina();
             red[4] = nf.format(entiteti.get(i).getCijena());
-            red[5] = nf.format(entiteti.get(i).getRoba().getCijena().multiply(BigDecimal.valueOf(1.50).multiply(BigDecimal.valueOf(1.25))));
+      //      red[5] = nf.format(entiteti.get(i).getRoba().getCijena().multiply(BigDecimal.valueOf(1.50).multiply(BigDecimal.valueOf(1.25))));
             red[6] = nf.format(entiteti.get(i).getCijena().multiply(BigDecimal.valueOf(entiteti.get(i).getKolicina()).multiply(BigDecimal.valueOf(1.75))));        
             red[7] = fd.format(new Date());
             m.addRow(red);
@@ -80,7 +80,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         nf = new DecimalFormat("###,###.00", symbols);
 
         m = (DefaultTableModel) tblOtpremnica.getModel();
-        setTitle(ZavrsniUtil.getNaslov("-Pregled Primka-"));
+        setTitle(ZavrsniUtil.getNaslov("- Pregled Otpremnica -"));
 
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
         Vrijeme v = new Vrijeme();
@@ -106,7 +106,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
      private void preuzmiVrijednosti() {
 
         var p = otpremnica.getEntitet();
-        p.setRoba((Roba) cmbRoba.getSelectedItem());
+        p.setRoba((List<Roba>) cmbRoba.getSelectedItem());
         p.setIra((Ira) cmbIra.getSelectedItem());
         
 
@@ -254,7 +254,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
 
         jLabel1.setText("Naziv Robe");
 
-        jLabel5.setText("Broj Ira");
+        jLabel5.setText("Broj Računa");
 
         btnPr.setText("Osvježi");
         btnPr.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +263,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
             }
         });
 
-        btnUnos.setText("Nova Primka");
+        btnUnos.setText("Nova Otpremnica");
         btnUnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUnosActionPerformed(evt);

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -23,13 +24,11 @@ public class Ura extends Entitet{
     private Date datumIzdavanja;
     private Date datumDospijeca;
     
-    @OneToMany(mappedBy = "ura")
-    private List<Primka> primka;
+    @OneToMany (mappedBy = "ura")
+    private List <Primka> primka;
 
     public Ura() {
     }
-    
-    
 
     public List<Primka> getPrimka() {
         return primka;
@@ -38,6 +37,9 @@ public class Ura extends Entitet{
     public void setPrimka(List<Primka> primka) {
         this.primka = primka;
     }
+
+   
+    
 
     public Partner getPartner() {
         return partner;

@@ -70,7 +70,7 @@ public class StanjeMenu extends javax.swing.JFrame {
         });
         m = (DefaultTableModel) tblMeni.getModel();
         
-        setTitle(ZavrsniUtil.getNaslov("-Stanje-"));
+        setTitle(ZavrsniUtil.getNaslov("- Stanje -"));
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
@@ -105,13 +105,13 @@ public class StanjeMenu extends javax.swing.JFrame {
         try {
             s.setKolicina(Integer.parseInt(txtKolicina.getText()));
         } catch (Exception e) {
-          //  s.setKolicina(0);
+         
         }
         try {
 
             s.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
         } catch (Exception e) {
-         //   s.setCijena(BigDecimal.ZERO);
+         
         }
 
     }
@@ -189,13 +189,12 @@ public class StanjeMenu extends javax.swing.JFrame {
             }
         });
 
-        tblMeni.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblMeni.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Šifra", "Naziv", "Količina", "M.Jed.", "Nab. cijena", "V. cijena", "M. cijena"
+                "Šifra", "Naziv", "Količina", "M.Jed.", "Nab. cijena", "VP. cijena", "MP. cijena"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -206,6 +205,7 @@ public class StanjeMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblMeni.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblMeni.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMeniMouseClicked(evt);
