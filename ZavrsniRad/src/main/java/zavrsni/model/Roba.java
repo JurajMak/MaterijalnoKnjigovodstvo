@@ -30,7 +30,7 @@ public class Roba extends Entitet{
         
     }
     
-  /*  
+    
     public Roba(String naziv, Integer kolicina, String mjernaJedinica, BigDecimal cijena) {
         super();
         this.naziv = naziv;
@@ -39,7 +39,7 @@ public class Roba extends Entitet{
         this.cijena = cijena;
         
     }
-*/
+
   
 
     public String getNaziv() {

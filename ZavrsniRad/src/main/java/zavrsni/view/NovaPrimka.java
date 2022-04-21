@@ -473,10 +473,10 @@ public class NovaPrimka extends javax.swing.JFrame {
 
             for (int i = 0, rows = tblDodajPrimku.getRowCount(); i < rows; i++) {
                 Integer kol = (Integer) tblDodajPrimku.getValueAt(i, 3);
-                BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
-                total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
-                //   Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
-                // total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+             //   BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
+             //   total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
+                   Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
+                 total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
 
             }
 
@@ -487,11 +487,11 @@ public class NovaPrimka extends javax.swing.JFrame {
             for (int i = 0; i < tblDodajPrimku.getModel().getRowCount(); i++) {
                 Long id = Long.parseLong(tblDodajPrimku.getModel().getValueAt(i, 0).toString());
                 Integer kolicina = Integer.parseInt(tblDodajPrimku.getModel().getValueAt(i, 3).toString());
-                BigDecimal cijena = (BigDecimal) nf.parse((String) tblDodajPrimku.getModel().getValueAt(i, 5));
-                roba.dodavanjeKolicine(id, kolicina, cijena);
-                //  Long cijena = (Long)nf.parse((String)tblDodajPrimku.getModel().getValueAt(i, 5));                
-                //   BigDecimal c = new BigDecimal(cijena);
-                // roba.dodavanjeKolicine(id,kolicina,c);
+            //    BigDecimal cijena = (BigDecimal) nf.parse((String) tblDodajPrimku.getModel().getValueAt(i, 5));
+            //    roba.dodavanjeKolicine(id, kolicina, cijena);
+                  Long cijena = (Long)nf.parse((String)tblDodajPrimku.getModel().getValueAt(i, 5));                
+                   BigDecimal c = new BigDecimal(cijena);
+                 roba.dodavanjeKolicine(id,kolicina,c);
 
             }
             JOptionPane.showMessageDialog(getRootPane(), "Roba dodana na stanje!");

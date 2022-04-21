@@ -55,7 +55,7 @@ public class ObradaPrimka  extends Obrada<Primka>{
         
         
     }
-     
+   /*  
        public void dodavanje(long id,Ura u) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
@@ -66,8 +66,21 @@ public class ObradaPrimka  extends Obrada<Primka>{
          tr.commit();
     
     }
-
-  
+    */
+    
+         public void dodavanje(Long id,Ura u) {
+        Session s = HibernateUtil.getSession();
+        Transaction tr = s.beginTransaction();
+        entitet = s.load(Primka.class, id);
+        entitet.setUra(u);
+    //    entitet.setRoba(robe);
+        
+         tr.commit();
+    
+    }
+    
+    
+    
     public List<Primka> read(String uvjet) {
         return session.createQuery("from Primka p "
                 + " where concat(p.otpremnicaPrimka) "

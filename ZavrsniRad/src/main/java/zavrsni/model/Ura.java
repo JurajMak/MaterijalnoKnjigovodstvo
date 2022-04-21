@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,23 +25,23 @@ public class Ura extends Entitet{
     private Date datumIzdavanja;
     private Date datumDospijeca;
     
-    @OneToMany (mappedBy = "ura")
-    private List <Primka> primka;
+    @OneToOne(mappedBy = "ura")
+    private Primka primka;
 
     public Ura() {
     }
 
-    public List<Primka> getPrimka() {
+    public Primka getPrimka() {
         return primka;
     }
 
-    public void setPrimka(List<Primka> primka) {
+    public void setPrimka(Primka primka) {
         this.primka = primka;
     }
 
-   
-    
+  
 
+   
     public Partner getPartner() {
         return partner;
     }

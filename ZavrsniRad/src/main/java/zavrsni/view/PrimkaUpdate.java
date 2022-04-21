@@ -3,16 +3,11 @@ package zavrsni.view;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -36,8 +31,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     private ObradaPrimka primka;
     private ObradaRoba roba;
     private TablePrimkaRenderer tbr;
-    private List<Roba> robe = new ArrayList<>();
-    private List<Primka> primke = new ArrayList<>();
+
 
     public PrimkaUpdate() {
         initComponents();
@@ -46,11 +40,11 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
 
-        //     sirinaStupca();
+        
         postavke();
         load();
-        stavka();
-
+       
+        
         lstDodajRobu.setCellRenderer(new PrikazRoba());
 
     }
@@ -70,6 +64,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
 
             m.addRow(red);
         }
+        tblPrimka.setModel(m);
     }
 
     private void postavke() {
@@ -120,13 +115,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-        /*
-        try {
-            p.setKolicina(Integer.parseInt(txtKolicina.getText()));
-        } catch (Exception e) {
-
-        }
-         */
+        
     }
 
     private void proba(javax.swing.event.ListSelectionEvent evt) {
@@ -140,7 +129,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         var p = primka.getEntitet();
 
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
-        //  txtKolicina.setText(p.getKolicina().toString());
+        
         txtOtpPrim.setText(p.getOtpremnicaPrimka());
 
         DefaultListModel<Roba> r = new DefaultListModel<>();
@@ -153,22 +142,13 @@ public class PrimkaUpdate extends javax.swing.JFrame {
 
     }
 
-    private void stavka() {
-
-        k = (DefaultTableModel) tblStavka.getModel();
-        primka = new ObradaPrimka();
-        String[] s = {"Šifra", "Naziv", "Količina", "Cijena"};
-        for (String i : s) {
-            k.addColumn(i);
-        }
-
-        tblStavka.setModel(k);
-
-    }
+    
+    
 
     private void brisanjePolja() {
         txtCijena.setText(null);
-        //   txtKolicina.setText(null);
+        txtOtpPrim.setText(null);
+        lstDodajRobu.clearSelection();
 
     }
 
@@ -181,16 +161,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         tblPrimka.getColumnModel().getColumn(5).setPreferredWidth(20);
 
         tblPrimka.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-    }
-
-    private boolean nadjiRobu(DefaultListModel<Roba> m, Roba r) {
-        for (int i = 0; i < m.size(); i++) {
-            if (m.get(i).getId().equals(r.getId())) {
-                return true;
-            }
-        }
-        return false;
 
     }
 
@@ -207,15 +177,12 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         jSat = new javax.swing.JLabel();
         btnPromjena = new javax.swing.JButton();
         btnBrisanje = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         btnPr = new javax.swing.JButton();
         txtOtpPrim = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblStavka = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         lstDodajRobu = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -284,8 +251,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Naziv Robe");
-
         btnPr.setText("Osvježi");
         btnPr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,63 +260,51 @@ public class PrimkaUpdate extends javax.swing.JFrame {
 
         jLabel4.setText("Otp-Primka");
 
-        tblStavka.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane2.setViewportView(tblStavka);
-
-        jLabel5.setText("Stavke");
-
         jScrollPane3.setViewportView(lstDodajRobu);
+
+        jLabel1.setText("Roba");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(847, Short.MAX_VALUE)
-                .addComponent(jSat, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(txtOtpPrim, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnUnos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(27, 27, 27)
-                        .addComponent(btnBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(67, 67, 67)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnIzlaz, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnIzlaz, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtOtpPrim, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnUnos)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnPr, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jSat, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,28 +312,24 @@ public class PrimkaUpdate extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPr)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(btnUnos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUnos)
                     .addComponent(btnBrisanje)
-                    .addComponent(txtOtpPrim, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel1))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(btnIzlaz)
+                    .addComponent(txtOtpPrim, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPr)
+                    .addComponent(btnPromjena))
                 .addGap(1, 1, 1)
+                .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(btnIzlaz)
+                .addGap(4, 4, 4)
                 .addComponent(jSat, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -398,25 +347,16 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIzlazActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        List<Primka> entiteti = primka.read();
-        List<Roba> ent = roba.read();
-        var red = tblPrimka.getSelectedRow();
-
-        primka.setEntitet(entiteti.get(red));
-        roba.setEntitet(ent.get(red));
-        var p = primka.getEntitet();
-        var ro = roba.getEntitet();
-
         if (primka.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
             return;
         }
-
+   
         try {
 
             preuzmiVrijednosti();
-            ro.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
-            //   ro.setKolicina((p.getKolicina() - p.getKolicina()) + (ro.getKolicina() + Integer.parseInt(txtKolicina.getText())));
+      
+            
             primka.update();
             JOptionPane.showMessageDialog(getRootPane(), "Primka pod brojem " + primka.getEntitet().getId() + " promijenjena!");
             m.setRowCount(0);
@@ -425,8 +365,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
             brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
-        } catch (ParseException ex) {
-            Logger.getLogger(PrimkaUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
@@ -499,14 +437,11 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jSat;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JList<Roba> lstDodajRobu;
     private javax.swing.JTable tblPrimka;
-    private javax.swing.JTable tblStavka;
     private javax.swing.JTextField txtCijena;
     private javax.swing.JTextField txtOtpPrim;
     // End of variables declaration//GEN-END:variables
