@@ -13,7 +13,6 @@ import zavrsni.model.Otpremnica;
 import zavrsni.model.Partner;
 import zavrsni.model.Primka;
 import zavrsni.model.Roba;
-import zavrsni.model.RobaPrimka;
 import zavrsni.model.Ura;
 
 /**
@@ -40,48 +39,47 @@ public class PocetniInsert {
         Roba r;
         Otpremnica ot;
         Ira ir;
-       
+
         for (int i = 0; i < partneri.size(); i++) {
             p = partneri.get(i);
-              r = robe.get(i);
-              
+            r = robe.get(i);
+
             for (int j = 0; j < ((int) Math.random() * (5 - 2) + 1); j++) {
                 u = new Ura();
                 pr = new Primka();
                 ot = new Otpremnica();
                 ir = new Ira();
-                
+
                 u.setPartner(p);
-                u.setBrojRacuna("0" + (i + 1) + "/2022");
+                u.setBrojRacuna((i + 1) + "/2022");
                 u.setDatumDospijeca(new Date());
                 u.setDatumIzdavanja(new Date());
                 u.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 pr.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 pr.setKolicina(faker.number().numberBetween(10, 100));
-                pr.setUra(u);               
+                pr.setUra(u);
                 pr.setRoba(robe);
-                pr.setOtpremnicaPrimka("0"+(i+1));
-                ir.setBrojRacuna("0" + (i + 1) + "/2022");
+                pr.setOtpremnicaPrimka((i + 1)+"/2022");
+                ir.setBrojRacuna((i + 1) + "/2022");
                 ir.setDatumDospijeca(new Date());
                 ir.setDatumIzdavanja(new Date());
                 ir.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ir.setPartner(p);
                 ot.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ot.setKolicina(faker.number().numberBetween(10, 100));
-                ot.setBrojOtpremnice("0" + (i + 1) + "/2022");
+                ot.setBrojOtpremnice((i + 1) + "/2022");
                 ot.setIra(ir);
                 ot.setRoba(robe);
-             
-             
+
                 session.save(u);
                 session.save(pr);
                 session.save(ir);
                 session.save(ot);
-            
+
             }
-               
+
         }
-         
+
         session.getTransaction().commit();
     }
 

@@ -77,6 +77,11 @@ public class Otpremnica extends Entitet{
     public void setKolicina(Integer kolicina) {
         this.kolicina = kolicina;
     }
+
+    @Override
+    public String toString() {
+        return brojOtpremnice;
+    }
    
    
 }

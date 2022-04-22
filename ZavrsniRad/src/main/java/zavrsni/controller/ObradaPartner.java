@@ -36,14 +36,14 @@ public class ObradaPartner extends Obrada<Partner> {
     @Override
     protected void kontrolaCreate() throws ZavrsniException {
         unosPartnera();
-         oibPartner();
+      //   oibPartner();
         kontrolaEmail();
     }
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
         unosPartnera();
-        oibPartner();
+       // oibPartner();
         kontrolaEmail();
     }
 

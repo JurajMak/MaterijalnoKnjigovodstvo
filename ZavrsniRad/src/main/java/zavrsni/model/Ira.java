@@ -6,9 +6,12 @@ package zavrsni.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,6 +26,22 @@ public class Ira extends Entitet{
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
+    @OneToOne
+    private Otpremnica otpremnica;
+
+    public Otpremnica getOtpremnica() {
+        return otpremnica;
+    }
+
+    public void setOtpremnica(Otpremnica otpremnica) {
+        this.otpremnica = otpremnica;
+    }
+
+  
+
+    
+    
+    
 
     public Ira() {
     }

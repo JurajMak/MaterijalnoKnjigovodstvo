@@ -18,7 +18,7 @@ import zavrsni.model.Roba;
  *
  * @author juraj
  */
-public class PrikazRoba extends JLabel implements ListCellRenderer<Roba>{
+public class PrikazRoba extends JLabel implements ListCellRenderer<Roba> {
     private String naziv;
    
      private DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -41,7 +41,8 @@ public class PrikazRoba extends JLabel implements ListCellRenderer<Roba>{
         
         naziv = value.getNaziv();
     
-        renderer.setText(value.getNaziv()==null ? "Nepoznato" : value.getNaziv());  
+        renderer.setText(value.getNaziv()==null ? "Nepoznato" : value.getNaziv());
+    //    + " " + (value.getPrimka().get().getKolicina()==null ? "Nepoznato" : value.getPrimka().get(index).getKolicina()));  
        
         
         return renderer;

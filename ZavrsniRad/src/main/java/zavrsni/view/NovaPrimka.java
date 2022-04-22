@@ -41,7 +41,7 @@ public class NovaPrimka extends javax.swing.JFrame {
     private SimpleDateFormat df;
     private BigDecimal iznos = BigDecimal.ZERO;
     private BigDecimal total = BigDecimal.ZERO;
-    private List<Roba> robe = new ArrayList<Roba>();
+    private List<Roba> robe = new ArrayList<>();
 
     public NovaPrimka() {
         initComponents();
@@ -75,7 +75,7 @@ public class NovaPrimka extends javax.swing.JFrame {
 
     private void postavke() {
         tblDodajPrimku.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
-            //  proba(evt);
+              promjene(evt);
         });
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
@@ -138,7 +138,7 @@ public class NovaPrimka extends javax.swing.JFrame {
         tblDodajPrimku.setModel(m);
 
     }
-
+/*
     private void preuzmiVrijednosti() {
 
         var p = primka.getEntitet();
@@ -159,9 +159,9 @@ public class NovaPrimka extends javax.swing.JFrame {
 
         }
 
-    }
+    } */
 
-    private void proba(javax.swing.event.ListSelectionEvent evt) {
+    private void promjene(javax.swing.event.ListSelectionEvent evt) {
         if (evt.getValueIsAdjusting() || tblDodajPrimku.getSelectedRow() < 0) {
             return;
         }
@@ -173,6 +173,31 @@ public class NovaPrimka extends javax.swing.JFrame {
 
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
 
+    }
+    
+    private void vrijednosti() throws ParseException{
+        
+
+            primka.setEntitet(new Primka());
+
+            var p = primka.getEntitet();
+            p.setOtpremnicaPrimka(txtOtpPrm.getText());
+            p.setRoba(robe);
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+            p.setKolicina((Integer.parseInt(txtKolicina.getText())));
+            txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+            txtKolicina.setText(p.getKolicina().toString());
+
+            for (int i = 0, rows = tblDodajPrimku.getRowCount(); i < rows; i++) {
+                Integer kol = (Integer) tblDodajPrimku.getValueAt(i, 3);
+             //   BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
+             //   total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
+                 Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
+                total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+
+            }
+
+            p.setCijena(total);
     }
 
     @SuppressWarnings("unchecked")
@@ -409,23 +434,12 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTraziActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        /*         
-!ma.matches() || 
-         */
-        primka.setEntitet(new Primka());
-        var p = primka.getEntitet();
-        //   p.setOtpremnicaPrimka(txtOtpPrm.getText());
-        //    p.setRoba(robe);
-        //    p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
-        //   p.setKolicina((Integer.parseInt(txtKolicina.getText())));
-        //    txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
-        //   txtKolicina.setText(p.getKolicina().toString());
-
+       
         String samobroj = "[,.0-9]+";
         Pattern pe = Pattern.compile(samobroj);
-        //   Matcher ma = pe.matcher(txtCijena.getText());
+        Matcher ma = pe.matcher(txtCijena.getText());
         Matcher mi = pe.matcher(txtKolicina.getText());
-        if (!mi.matches()) {
+        if (!mi.matches() || !ma.matches()) {
             JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
             return;
         }
@@ -439,7 +453,8 @@ public class NovaPrimka extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
             return;
         }
-
+         
+             
         Object[] red = new Object[8];
         red[0] = lstRoba.getSelectedValue().getId();
         red[1] = lstRoba.getSelectedValue().getNaziv();
@@ -460,13 +475,13 @@ public class NovaPrimka extends javax.swing.JFrame {
     private void btnSpremiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpremiActionPerformed
 
         try {
-
+/*
             primka.setEntitet(new Primka());
 
             var p = primka.getEntitet();
             p.setOtpremnicaPrimka(txtOtpPrm.getText());
             p.setRoba(robe);
-            //     p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
             p.setKolicina((Integer.parseInt(txtKolicina.getText())));
             txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
             txtKolicina.setText(p.getKolicina().toString());
@@ -475,13 +490,13 @@ public class NovaPrimka extends javax.swing.JFrame {
                 Integer kol = (Integer) tblDodajPrimku.getValueAt(i, 3);
              //   BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
              //   total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
-                   Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
-                 total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+                 Long cije = (Long)nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
+                total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
 
             }
 
-            p.setCijena(total);
-
+            p.setCijena(total); */
+            vrijednosti();
             primka.create();
             JOptionPane.showMessageDialog(getRootPane(), "Stvorena nova primka pod brojem " + primka.getEntitet().getId() + " !");
             for (int i = 0; i < tblDodajPrimku.getModel().getRowCount(); i++) {
@@ -489,7 +504,7 @@ public class NovaPrimka extends javax.swing.JFrame {
                 Integer kolicina = Integer.parseInt(tblDodajPrimku.getModel().getValueAt(i, 3).toString());
             //    BigDecimal cijena = (BigDecimal) nf.parse((String) tblDodajPrimku.getModel().getValueAt(i, 5));
             //    roba.dodavanjeKolicine(id, kolicina, cijena);
-                  Long cijena = (Long)nf.parse((String)tblDodajPrimku.getModel().getValueAt(i, 5));                
+                   Long cijena = (Long)nf.parse((String)tblDodajPrimku.getModel().getValueAt(i, 5));                
                    BigDecimal c = new BigDecimal(cijena);
                  roba.dodavanjeKolicine(id,kolicina,c);
 
@@ -541,7 +556,7 @@ public class NovaPrimka extends javax.swing.JFrame {
     private void lstRobaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstRobaValueChanged
 
     }//GEN-LAST:event_lstRobaValueChanged
-    private boolean postojiRoba(DefaultListModel<Roba> r, Roba p) {
+ /*   private boolean postojiRoba(DefaultListModel<Roba> r, Roba p) {
         for (int i = 0; i < r.size(); i++) {
             if (r.get(i).getId().equals(p.getId())) {
                 return true;
@@ -549,7 +564,7 @@ public class NovaPrimka extends javax.swing.JFrame {
         }
         return false;
     }
-
+*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnPovratak;

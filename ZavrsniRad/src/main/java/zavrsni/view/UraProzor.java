@@ -7,12 +7,12 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import zavrsni.controller.ObradaPartner;
@@ -44,7 +44,7 @@ public class UraProzor extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         postavke();
         ucitajDobavljaca();
-       // ucitajPrimke();
+        // ucitajPrimke();
         ucitajPr();
         load();
 
@@ -128,7 +128,8 @@ public class UraProzor extends javax.swing.JFrame {
         });
         cmbDobavljac.setModel(p);
     }
-/*
+
+    /*
     private void ucitajPrimke() {
         DefaultListModel<Primka> r = new DefaultListModel<>();
         List<Primka> entiteti;
@@ -144,8 +145,8 @@ public class UraProzor extends javax.swing.JFrame {
         lstPrimka.setModel(r);
 
     }
-    */
-     private void ucitajPr() {
+     */
+    private void ucitajPr() {
         DefaultComboBoxModel<Primka> p = new DefaultComboBoxModel<>();
         Primka prim = new Primka();
         prim.setId(Long.valueOf(0));
@@ -157,13 +158,9 @@ public class UraProzor extends javax.swing.JFrame {
         });
         cmbPrimka.setModel(p);
     }
-    
-    
-    
 
     private void preuzmiVrijednosti() {
 
-        
         var u = ura.getEntitet();
 
         if (dpsDospijeca.getDate() != null) {
@@ -177,11 +174,11 @@ public class UraProzor extends javax.swing.JFrame {
         } else {
             u.setDatumIzdavanja(null);
         }
-              
+        // u.setPrim((Primka) cmbPrimka.getSelectedItem());
         u.setPrimka((Primka) cmbPrimka.getSelectedItem());
         u.setPartner((Partner) cmbDobavljac.getSelectedItem());
         u.setBrojRacuna(txtBrojRacuna.getText());
-        
+
         try {
             u.setIznos(new BigDecimal(nf.parse(txtIznos.getText()).toString()));
 
@@ -198,7 +195,6 @@ public class UraProzor extends javax.swing.JFrame {
 
         List<Ura> entiteti = ura.read();
         var ro = tblUra.getSelectedRow();
-
         ura.setEntitet(entiteti.get(ro));
 
         var p = ura.getEntitet();
@@ -213,8 +209,8 @@ public class UraProzor extends javax.swing.JFrame {
         } else {
             cmbDobavljac.setSelectedItem(p.getPartner());
         }
-        
-          if ((p.getPrimka()) == null) {
+
+        if ((p.getPrimka()) == null) {
             cmbPrimka.setSelectedIndex(0);
         } else {
             cmbPrimka.setSelectedItem(p.getPrimka());
@@ -223,12 +219,11 @@ public class UraProzor extends javax.swing.JFrame {
     }
 
     private void brisanjePolja() {
-      //  txtBrPr.setText(null);
         txtBrojRacuna.setText(null);
         txtIznos.setText(null);
-        
         ura.setEntitet(null);
         cmbDobavljac.setSelectedIndex(0);
+        cmbPrimka.setSelectedIndex(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -394,10 +389,10 @@ public class UraProzor extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(5, 5, 5))))
+                    .addComponent(cmbPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -428,19 +423,24 @@ public class UraProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIzlazActionPerformed
 
     private void btnUnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnosActionPerformed
+        String samobroj = "[/0-9]+";
+        Pattern pe = Pattern.compile(samobroj);
+
+        Matcher mi = pe.matcher(txtBrojRacuna.getText());
+        if (!mi.matches()) {
+            JOptionPane.showMessageDialog(getRootPane(), "Obavezan broj računa u 00/0000 formatu");
+            return;
+        }
 
         try {
-           
+
             ura.setEntitet(new Ura());
-            primka.setEntitet(new Primka());
             preuzmiVrijednosti();
             ura.create();
-            
-            
+
             JOptionPane.showMessageDialog(getRootPane(), "Stvorena nova Ura pod brojem " + ura.getEntitet().getId() + " !");
             m.setRowCount(0);
-            
-            
+
             load();
 
             //     brisanjePolja();
@@ -483,6 +483,14 @@ public class UraProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrisanjeKeyPressed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
+        String samobroj = "[/0-9]+";
+        Pattern pe = Pattern.compile(samobroj);
+
+        Matcher mi = pe.matcher(txtBrojRacuna.getText());
+        if (!mi.matches()) {
+            JOptionPane.showMessageDialog(getRootPane(), "Obavezan broj računa u 00/0000 formatu");
+            return;
+        }
 
         if (ura.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
@@ -490,10 +498,10 @@ public class UraProzor extends javax.swing.JFrame {
         }
 
         try {
-           
+
             preuzmiVrijednosti();
             ura.update();
-            
+
             JOptionPane.showMessageDialog(getRootPane(), "Ura pod brojem " + ura.getEntitet().getId() + " promijenjena!");
             m.setRowCount(0);
             load();

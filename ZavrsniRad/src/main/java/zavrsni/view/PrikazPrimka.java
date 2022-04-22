@@ -28,7 +28,9 @@ public class PrikazPrimka extends JLabel implements ListCellRenderer<Primka> {
             setForeground(Color.BLACK);
         }
            
-           setText(value.getOtpremnicaPrimka()==null ? " Nepoznato ": value.getOtpremnicaPrimka());
+           setText(value.getOtpremnicaPrimka()==null ? " Nepoznato ": value.getOtpremnicaPrimka()
+           + " " + (value.getRoba()==null ? "Nepoznato" : value.getRoba())
+           + " " + (value.getKolicina()==null ? "Nepoznato" : value.getKolicina()));
         
         return this;
     }

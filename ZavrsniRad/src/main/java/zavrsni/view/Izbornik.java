@@ -4,6 +4,7 @@ package zavrsni.view;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import zavrsni.util.ZavrsniUtil;
 
 /**
@@ -17,6 +18,8 @@ public class Izbornik extends javax.swing.JFrame {
     public Izbornik() {
         initComponents();
         postavke();
+        
+
     }
         
      private void postavke(){
@@ -55,9 +58,11 @@ public class Izbornik extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jmnOtpremnica = new javax.swing.JMenuItem();
         jmnIra = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jRobno = new javax.swing.JMenu();
         jPrimka = new javax.swing.JMenuItem();
         jmbUra = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jmnPartner = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -99,6 +104,14 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jMenu2.add(jmnIra);
 
+        jMenuItem2.setText("Nova Otpremnica");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         jRobno.setText("Ura");
@@ -118,6 +131,14 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
         jRobno.add(jmbUra);
+
+        jMenuItem1.setText("Nova Primka");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jRobno.add(jMenuItem1);
 
         jMenuBar1.add(jRobno);
 
@@ -167,7 +188,9 @@ public class Izbornik extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jIzlazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIzlazActionPerformed
-        dispose();
+          if (JOptionPane.showConfirmDialog( getRootPane()," Želite li ugasiti program ?","Materijalno knjigovodstvo",
+            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            System.exit(0);
     }//GEN-LAST:event_jIzlazActionPerformed
 
     private void jmnOtpremnicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnOtpremnicaActionPerformed
@@ -175,7 +198,7 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_jmnOtpremnicaActionPerformed
 
     private void jmnIraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnIraActionPerformed
-       
+       new IraProzor().setVisible(true);
     }//GEN-LAST:event_jmnIraActionPerformed
 
     private void jPrimkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPrimkaActionPerformed
@@ -195,6 +218,14 @@ public class Izbornik extends javax.swing.JFrame {
         new StanjeMenu().setVisible(true);
     }//GEN-LAST:event_jmbStanjeActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       new NovaPrimka().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       new OtpremnicaProzor().setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
    
  
   
@@ -206,6 +237,8 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jPrimka;
     private javax.swing.JMenu jRobno;
     private javax.swing.JMenuItem jmbStanje;

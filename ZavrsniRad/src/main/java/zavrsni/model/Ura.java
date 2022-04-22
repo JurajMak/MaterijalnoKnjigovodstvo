@@ -4,11 +4,8 @@ package zavrsni.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -24,7 +21,7 @@ public class Ura extends Entitet{
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
-    
+   
     @OneToOne(mappedBy = "ura")
     private Primka primka;
 
@@ -40,7 +37,6 @@ public class Ura extends Entitet{
     }
 
   
-
    
     public Partner getPartner() {
         return partner;

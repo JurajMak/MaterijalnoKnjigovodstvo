@@ -33,6 +33,9 @@ public class ObradaIra extends Obrada<Ira> {
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
+         if(entitet.getOtpremnica()!=null){
+            throw new ZavrsniException("Ne možete obrisati Iru broj" + entitet.getId()+ "jer sadržava Otpremnicu pod brojem " + entitet.getOtpremnica());
+        }
     }
 
    
