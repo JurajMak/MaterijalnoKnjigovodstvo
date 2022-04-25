@@ -28,11 +28,12 @@ public class ObradaOtpremnica extends Obrada<Otpremnica> {
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-        kontrolaOtpremnice();
+       // kontrolaOtpremnice();
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
+         
     }
 
     private void kontrolaOtpremnice() throws ZavrsniException {

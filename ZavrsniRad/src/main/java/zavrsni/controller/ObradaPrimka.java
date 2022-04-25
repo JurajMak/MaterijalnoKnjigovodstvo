@@ -30,12 +30,13 @@ public class ObradaPrimka  extends Obrada<Primka>{
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-     // unosPrimke();
+      //unosPrimke();
         
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
+        
     }
     
     private void unosPrimke() throws ZavrsniException{
@@ -56,8 +57,8 @@ public class ObradaPrimka  extends Obrada<Primka>{
         
     }
 
-    
-         public void dodavanje(Long id,Ura u) {
+   /* 
+        public void dodavanje(Long id,Ura u) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Primka.class, id);
@@ -67,7 +68,7 @@ public class ObradaPrimka  extends Obrada<Primka>{
          tr.commit();
     
     }
-    
+    */
     
     
     public List<Primka> read(String uvjet) {

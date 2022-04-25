@@ -154,7 +154,7 @@ public class IraProzor extends javax.swing.JFrame {
             i.setDatumIzdavanja(null);
         }
 
-        i.setOtpremnica((Otpremnica) cmbOtp.getSelectedItem());
+       
         i.setPartner((Partner) cmbKupac.getSelectedItem());
         i.setBrojRacuna(txtBrojRacuna.getText());
 
@@ -188,11 +188,7 @@ public class IraProzor extends javax.swing.JFrame {
             cmbKupac.setSelectedItem(p.getPartner());
         }
 
-        if ((p.getOtpremnica()) == null) {
-            cmbOtp.setSelectedIndex(0);
-        } else {
-            cmbOtp.setSelectedItem(p.getOtpremnica());
-        }
+       
 
     }
 

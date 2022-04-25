@@ -26,17 +26,18 @@ public class Ira extends Entitet{
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
-    @OneToOne
-    private Otpremnica otpremnica;
+    @OneToMany(mappedBy = "ira")
+    private List<Otpremnica> otpreminca;
 
-    public Otpremnica getOtpremnica() {
-        return otpremnica;
+    public List<Otpremnica> getOtpreminca() {
+        return otpreminca;
     }
 
-    public void setOtpremnica(Otpremnica otpremnica) {
-        this.otpremnica = otpremnica;
+    public void setOtpreminca(List<Otpremnica> otpreminca) {
+        this.otpreminca = otpreminca;
     }
 
+ 
   
 
     

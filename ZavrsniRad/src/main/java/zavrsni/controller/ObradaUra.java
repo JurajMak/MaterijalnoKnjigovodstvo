@@ -30,11 +30,11 @@ public class ObradaUra extends Obrada<Ura>{
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
-         if(entitet.getPrimka()!=null){
-            throw new ZavrsniException("Ne možete obrisati Uru broj " + entitet.getId() + "jer sadržava Primku pod brojem " + entitet.getPrimka());
-        }
+   /*   if(entitet.getPrimka()!= null){
+            throw new ZavrsniException("Ne možete obrisati Uru broj " + entitet.getId() + " jer sadržava Primku pod brojem " + entitet.getPrimka());
+        } 
+      */
     }
-    
     
     private void kontrolaUre()throws ZavrsniException{
       

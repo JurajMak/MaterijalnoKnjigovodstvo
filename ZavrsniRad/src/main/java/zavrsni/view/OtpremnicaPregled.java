@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import zavrsni.controller.ObradaIra;
 import zavrsni.controller.ObradaOtpremnica;
 import zavrsni.controller.ObradaRoba;
+import zavrsni.model.Ira;
 import zavrsni.model.Otpremnica;
 import zavrsni.model.Roba;
 import zavrsni.util.ZavrsniException;
@@ -38,7 +41,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         otpremnica = new ObradaOtpremnica();
         roba = new ObradaRoba();
 
-        //  sirinaStupca();
+       ucitajIru();
         postavke();
 
         load();
@@ -100,7 +103,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
 
         var p = otpremnica.getEntitet();
         p.setBrojOtpremnice(txtOtp.getText());
-
+        p.setIra((Ira) cmbOtp.getSelectedItem());
         try {
 
             p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
@@ -121,6 +124,13 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         var p = otpremnica.getEntitet();
         txtOtp.setText(p.getBrojOtpremnice());
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+        
+        
+        if (p.getIra()== null) {
+            cmbOtp.setSelectedIndex(0);
+        } else {
+            cmbOtp.setSelectedItem(p.getIra());
+        }
 
         DefaultListModel<Roba> r = new DefaultListModel<>();
         if (p.getRoba() != null) {
@@ -131,10 +141,27 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         lstRoba.setModel(r);
 
     }
+    
+       private void ucitajIru() {
+        DefaultComboBoxModel<Ira> u = new DefaultComboBoxModel<>();
+        Ira ira = new Ira();
+        ira.setId(Long.valueOf(0));
+        ira.setBrojRacuna("Nije odabrano");
+
+        u.addElement(ira);
+        new ObradaIra().read().forEach(s -> {
+            u.addElement(s);
+        });
+        cmbOtp.setModel(u);
+    }
+    
+    
+    
 
     private void brisanjePolja() {
         txtCijena.setText(null);
-
+        txtOtp.setText(null);
+        lstRoba.clearSelection();
     }
 
     private void sirinaStupca() {
@@ -168,6 +195,8 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtOtp = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        cmbOtp = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -237,6 +266,8 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
 
         jLabel3.setText("Br. Otp");
 
+        jLabel4.setText("Br. Računa");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -257,23 +288,29 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtOtp, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnPr, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                                .addComponent(btnBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(130, 130, 130))
+                                        .addComponent(btnPr, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                        .addComponent(btnBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(41, 41, 41)
+                                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(130, 130, 130))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(61, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(cmbOtp, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(57, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,24 +319,26 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel1))
+                    .addComponent(cmbOtp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtOtp, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPr))
+                        .addGap(53, 53, 53))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtOtp, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnPr))
-                                .addGap(53, 53, 53))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnBrisanje)
-                                    .addComponent(btnPromjena))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBrisanje)
+                            .addComponent(btnPromjena))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -361,7 +400,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrisanjeKeyPressed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        String samobroj = "[,.0-9]+";
+        String samobroj = "[,./0-9]+";
         Pattern pe = Pattern.compile(samobroj);
         Matcher ma = pe.matcher(txtCijena.getText());
         Matcher mi = pe.matcher(txtOtp.getText());
@@ -376,8 +415,8 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         }
 
         try {
-
             preuzmiVrijednosti();
+           
             otpremnica.update();
             JOptionPane.showMessageDialog(getRootPane(), "Otpremnica pod brojem " + otpremnica.getEntitet().getId() + " promijenjena!");
             m.setRowCount(0);
@@ -399,9 +438,11 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
     private javax.swing.JButton btnIzlaz;
     private javax.swing.JButton btnPr;
     private javax.swing.JButton btnPromjena;
+    private javax.swing.JComboBox<Ira> cmbOtp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jSat;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

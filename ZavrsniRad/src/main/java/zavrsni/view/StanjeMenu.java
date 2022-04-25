@@ -65,7 +65,7 @@ public class StanjeMenu extends javax.swing.JFrame {
      */
     private void postavke() {
         tblMeni.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
-            proba(evt);
+            promjenaVrijednosti(evt);
         });
         m = (DefaultTableModel) tblMeni.getModel();
 
@@ -130,7 +130,7 @@ public class StanjeMenu extends javax.swing.JFrame {
      * metoda koja "osluškuje" kretanje po tablici i na klik odabire redove i
      * tekstualni zapis tablice prikazuje u poljima(jtextfield)
      */
-    private void proba(javax.swing.event.ListSelectionEvent evt) {
+    private void promjenaVrijednosti(javax.swing.event.ListSelectionEvent evt) {
 
         if (evt.getValueIsAdjusting() || tblMeni.getSelectedRow() < 0) {
 

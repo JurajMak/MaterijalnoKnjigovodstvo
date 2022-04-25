@@ -153,6 +153,19 @@ public class NovaPrimka extends javax.swing.JFrame {
 
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
 
+    }   
+    
+    private void preuzimanjeVrijednosti(){
+         primka.setEntitet(new Primka());
+
+        var p = primka.getEntitet();
+        
+        try {
+
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        } catch (Exception e) {
+
+        }
     }
 
     private void vrijednosti() throws ParseException {
@@ -413,7 +426,7 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTraziActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-
+        preuzimanjeVrijednosti();
         String samobroj = "[,.0-9]+";
         Pattern pe = Pattern.compile(samobroj);
         Matcher ma = pe.matcher(txtCijena.getText());

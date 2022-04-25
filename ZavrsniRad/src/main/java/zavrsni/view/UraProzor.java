@@ -44,7 +44,6 @@ public class UraProzor extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         postavke();
         ucitajDobavljaca();
-        ucitajPr();
         load();
 
     }
@@ -128,18 +127,7 @@ public class UraProzor extends javax.swing.JFrame {
         cmbDobavljac.setModel(p);
     }
 
-    private void ucitajPr() {
-        DefaultComboBoxModel<Primka> p = new DefaultComboBoxModel<>();
-        Primka prim = new Primka();
-        prim.setId(Long.valueOf(0));
-        prim.setOtpremnicaPrimka("Nije odabrano");
-
-        p.addElement(prim);
-        new ObradaPrimka().read().forEach(s -> {
-            p.addElement(s);
-        });
-        cmbPrimka.setModel(p);
-    }
+   
 
     private void preuzmiVrijednosti() {
 
@@ -157,7 +145,7 @@ public class UraProzor extends javax.swing.JFrame {
             u.setDatumIzdavanja(null);
         }
 
-        u.setPrimka((Primka) cmbPrimka.getSelectedItem());
+        
         u.setPartner((Partner) cmbDobavljac.getSelectedItem());
         u.setBrojRacuna(txtBrojRacuna.getText());
 
@@ -191,12 +179,7 @@ public class UraProzor extends javax.swing.JFrame {
             cmbDobavljac.setSelectedItem(p.getPartner());
         }
 
-        if ((p.getPrimka()) == null) {
-            cmbPrimka.setSelectedIndex(0);
-        } else {
-            cmbPrimka.setSelectedItem(p.getPrimka());
-        }
-
+        
     }
 
     private void brisanjePolja() {
@@ -204,7 +187,7 @@ public class UraProzor extends javax.swing.JFrame {
         txtIznos.setText(null);
         ura.setEntitet(null);
         cmbDobavljac.setSelectedIndex(0);
-        cmbPrimka.setSelectedIndex(0);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -229,8 +212,6 @@ public class UraProzor extends javax.swing.JFrame {
         btnPromjena = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        cmbPrimka = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -303,8 +284,6 @@ public class UraProzor extends javax.swing.JFrame {
 
         jLabel4.setText("Datum dospijeća");
 
-        jLabel2.setText("Br.Primke");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -333,20 +312,16 @@ public class UraProzor extends javax.swing.JFrame {
                                     .addComponent(txtIznos, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(btnUnos)
-                                    .addGap(18, 18, 18)
+                                    .addGap(28, 28, 28)
                                     .addComponent(btnBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(40, 40, 40)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(102, 102, 102)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel6)
-                                        .addComponent(dpsDospijeca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(dpsIzdavanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(cmbPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2)))))
+                            .addGap(30, 30, 30)
+                            .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(102, 102, 102)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel6)
+                                .addComponent(dpsDospijeca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)
+                                .addComponent(dpsIzdavanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -357,9 +332,7 @@ public class UraProzor extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel2)))
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -370,7 +343,6 @@ public class UraProzor extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(5, 5, 5))))
-                    .addComponent(cmbPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -414,6 +386,7 @@ public class UraProzor extends javax.swing.JFrame {
         }
 
         try {
+            
 
             ura.setEntitet(new Ura());
             preuzmiVrijednosti();
@@ -512,11 +485,9 @@ public class UraProzor extends javax.swing.JFrame {
     private javax.swing.JButton btnPromjena;
     private javax.swing.JButton btnUnos;
     private javax.swing.JComboBox<Partner> cmbDobavljac;
-    private javax.swing.JComboBox<Primka> cmbPrimka;
     private com.github.lgooddatepicker.components.DatePicker dpsDospijeca;
     private com.github.lgooddatepicker.components.DatePicker dpsIzdavanja;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
