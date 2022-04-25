@@ -44,7 +44,6 @@ public class UraProzor extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         postavke();
         ucitajDobavljaca();
-        // ucitajPrimke();
         ucitajPr();
         load();
 
@@ -129,23 +128,6 @@ public class UraProzor extends javax.swing.JFrame {
         cmbDobavljac.setModel(p);
     }
 
-    /*
-    private void ucitajPrimke() {
-        DefaultListModel<Primka> r = new DefaultListModel<>();
-        List<Primka> entiteti;
-
-        entiteti = primka.read(txtBrPr.getText());
-
-        Collections.sort(entiteti, new PrimkaComparator());
-
-        for (Primka ro : entiteti) {
-            r.addElement(ro);
-        }
-
-        lstPrimka.setModel(r);
-
-    }
-     */
     private void ucitajPr() {
         DefaultComboBoxModel<Primka> p = new DefaultComboBoxModel<>();
         Primka prim = new Primka();
@@ -174,7 +156,7 @@ public class UraProzor extends javax.swing.JFrame {
         } else {
             u.setDatumIzdavanja(null);
         }
-        // u.setPrim((Primka) cmbPrimka.getSelectedItem());
+
         u.setPrimka((Primka) cmbPrimka.getSelectedItem());
         u.setPartner((Partner) cmbDobavljac.getSelectedItem());
         u.setBrojRacuna(txtBrojRacuna.getText());
@@ -196,7 +178,6 @@ public class UraProzor extends javax.swing.JFrame {
         List<Ura> entiteti = ura.read();
         var ro = tblUra.getSelectedRow();
         ura.setEntitet(entiteti.get(ro));
-
         var p = ura.getEntitet();
 
         txtBrojRacuna.setText(p.getBrojRacuna());
@@ -440,10 +421,9 @@ public class UraProzor extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(getRootPane(), "Stvorena nova Ura pod brojem " + ura.getEntitet().getId() + " !");
             m.setRowCount(0);
-
             load();
 
-            //     brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -472,7 +452,7 @@ public class UraProzor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Ura pod brojem " + ura.getEntitet().getId() + " obrisana!");
             m.setRowCount(0);
             load();
-            //     brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -506,7 +486,7 @@ public class UraProzor extends javax.swing.JFrame {
             m.setRowCount(0);
             load();
 
-            //    brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }

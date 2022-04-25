@@ -90,7 +90,7 @@ public class IraProzor extends javax.swing.JFrame {
 
         m = (DefaultTableModel) tblIra.getModel();
 
-        setTitle(ZavrsniUtil.getNaslov("- Ura -"));
+        setTitle(ZavrsniUtil.getNaslov("- Ira -"));
 
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
         Vrijeme v = new Vrijeme();
@@ -175,7 +175,6 @@ public class IraProzor extends javax.swing.JFrame {
         List<Ira> entiteti = ira.read();
         var ro = tblIra.getSelectedRow();
         ira.setEntitet(entiteti.get(ro));
-
         var p = ira.getEntitet();
 
         txtBrojRacuna.setText(p.getBrojRacuna());
@@ -415,7 +414,7 @@ public class IraProzor extends javax.swing.JFrame {
             m.setRowCount(0);
             load();
 
-            //    brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -444,7 +443,7 @@ public class IraProzor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Ira pod brojem " + ira.getEntitet().getId() + " obrisana!");
             m.setRowCount(0);
             load();
-            //     brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -475,7 +474,7 @@ public class IraProzor extends javax.swing.JFrame {
 
             load();
 
-            //     brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }

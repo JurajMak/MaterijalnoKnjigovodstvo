@@ -55,6 +55,7 @@ public class PocetniInsert {
                 u.setDatumDospijeca(new Date());
                 u.setDatumIzdavanja(new Date());
                 u.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
+                u.setPrimka(pr);
                 pr.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 pr.setKolicina(faker.number().numberBetween(10, 100));
                 pr.setUra(u);
@@ -65,6 +66,7 @@ public class PocetniInsert {
                 ir.setDatumIzdavanja(new Date());
                 ir.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ir.setPartner(p);
+                ir.setOtpremnica(ot);
                 ot.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ot.setKolicina(faker.number().numberBetween(10, 100));
                 ot.setBrojOtpremnice((i + 1) + "/2022");

@@ -1,6 +1,4 @@
-
 package zavrsni.model;
-
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,16 +11,16 @@ import javax.persistence.OneToOne;
  * @author juraj
  */
 @Entity
-public class Ura extends Entitet{
-        
+public class Ura extends Entitet {
+
     @ManyToOne
     private Partner partner;
     private String brojRacuna;
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
-   
-    @OneToOne(mappedBy = "ura")
+
+    @OneToOne
     private Primka primka;
 
     public Ura() {
@@ -36,8 +34,6 @@ public class Ura extends Entitet{
         this.primka = primka;
     }
 
-  
-   
     public Partner getPartner() {
         return partner;
     }
@@ -82,7 +78,5 @@ public class Ura extends Entitet{
     public String toString() {
         return brojRacuna;
     }
-    
-    
-    
+
 }

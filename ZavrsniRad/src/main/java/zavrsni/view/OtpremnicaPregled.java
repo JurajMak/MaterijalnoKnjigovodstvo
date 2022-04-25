@@ -369,8 +369,7 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
             return;
         }
-        
-        
+
         if (otpremnica.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
             return;

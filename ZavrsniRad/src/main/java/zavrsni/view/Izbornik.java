@@ -1,4 +1,3 @@
-
 package zavrsni.view;
 
 import java.text.SimpleDateFormat;
@@ -12,26 +11,25 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class Izbornik extends javax.swing.JFrame {
-    
+
     private SimpleDateFormat df;
-   
+
     public Izbornik() {
         initComponents();
         postavke();
-        
 
     }
-        
-     private void postavke(){
+
+    private void postavke() {
         setTitle(ZavrsniUtil.getNaslov("-Izbornik-"));
         jApp.setText(ZavrsniUtil.NAZIV_APP);
-        df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr","HR"));
+        df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
         Vrijeme v = new Vrijeme();
         v.start();
-       
+
     }
 
-    private class Vrijeme extends Thread{
+    private class Vrijeme extends Thread {
 
         @Override
         public void run() {
@@ -39,14 +37,13 @@ public class Izbornik extends javax.swing.JFrame {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                
-               
+
             }
             run();
         }
-        
+
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -188,30 +185,30 @@ public class Izbornik extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jIzlazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIzlazActionPerformed
-          if (JOptionPane.showConfirmDialog( getRootPane()," Želite li ugasiti program ?","Materijalno knjigovodstvo",
-            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+        if (JOptionPane.showConfirmDialog(getRootPane(), " Želite li ugasiti program ?", "Materijalno knjigovodstvo",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             System.exit(0);
     }//GEN-LAST:event_jIzlazActionPerformed
 
     private void jmnOtpremnicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnOtpremnicaActionPerformed
-       new OtpremnicaPregled().setVisible(true);
+        new OtpremnicaPregled().setVisible(true);
     }//GEN-LAST:event_jmnOtpremnicaActionPerformed
 
     private void jmnIraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnIraActionPerformed
-       new IraProzor().setVisible(true);
+        new IraProzor().setVisible(true);
     }//GEN-LAST:event_jmnIraActionPerformed
 
     private void jPrimkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPrimkaActionPerformed
         new PrimkaUpdate().setVisible(true);
-    
+
     }//GEN-LAST:event_jPrimkaActionPerformed
 
     private void jmbUraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbUraActionPerformed
-       new UraProzor().setVisible(true);
+        new UraProzor().setVisible(true);
     }//GEN-LAST:event_jmbUraActionPerformed
 
     private void jmnPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnPartnerActionPerformed
-       new UnosPartner().setVisible(true);
+        new UnosPartner().setVisible(true);
     }//GEN-LAST:event_jmnPartnerActionPerformed
 
     private void jmbStanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbStanjeActionPerformed
@@ -219,16 +216,13 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_jmbStanjeActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       new NovaPrimka().setVisible(true);
+        new NovaPrimka().setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-       new OtpremnicaProzor().setVisible(true);
+        new OtpremnicaProzor().setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-   
- 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jApp;

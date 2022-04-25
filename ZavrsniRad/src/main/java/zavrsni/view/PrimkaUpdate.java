@@ -34,7 +34,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     private ObradaRoba roba;
     private TablePrimkaRenderer tbr;
 
-
     public PrimkaUpdate() {
         initComponents();
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
@@ -42,11 +41,9 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
 
-        
         postavke();
         load();
-       
-        
+
         lstDodajRobu.setCellRenderer(new PrikazRoba());
 
     }
@@ -116,7 +113,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-        
+
     }
 
     private void proba(javax.swing.event.ListSelectionEvent evt) {
@@ -130,7 +127,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         var p = primka.getEntitet();
 
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
-        
+
         txtOtpPrim.setText(p.getOtpremnicaPrimka());
 
         DefaultListModel<Roba> r = new DefaultListModel<>();
@@ -142,9 +139,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         lstDodajRobu.setModel(r);
 
     }
-
-    
-    
 
     private void brisanjePolja() {
         txtCijena.setText(null);
@@ -340,21 +334,16 @@ public class PrimkaUpdate extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
             return;
         }
-        
-        
-        
-        
-        
+
         if (primka.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
             return;
         }
-   
+
         try {
 
             preuzmiVrijednosti();
-      
-            
+
             primka.update();
             JOptionPane.showMessageDialog(getRootPane(), "Primka pod brojem " + primka.getEntitet().getId() + " promijenjena!");
             m.setRowCount(0);
