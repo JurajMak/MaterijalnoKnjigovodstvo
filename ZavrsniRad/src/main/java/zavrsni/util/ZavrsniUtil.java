@@ -1,37 +1,31 @@
-
 package zavrsni.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import us.codecraft.xsoup.Xsoup;
 import zavrsni.model.Operater;
-import zavrsni.model.Primka;
-import zavrsni.model.Roba;
 
 /**
  *
  * @author juraj
  */
 public class ZavrsniUtil {
-       
-     public static Operater operater;
-    public static final String NAZIV_APP="Materijalno Knjigovodstvo";
-    
-    public static String getNaslov(String naslov){
-        if(ZavrsniUtil.operater==null){
+
+    public static Operater operater;
+    public static final String NAZIV_APP = "Materijalno Knjigovodstvo";
+
+    public static String getNaslov(String naslov) {
+        if (ZavrsniUtil.operater == null) {
             return ZavrsniUtil.NAZIV_APP + " " + naslov;
         }
-        return ZavrsniUtil.NAZIV_APP + " " + naslov +" " + ZavrsniUtil.operater.getIme() + " " + 
-                ZavrsniUtil.operater.getPrezime() + " - " + ZavrsniUtil.operater.getUloga();
+        return ZavrsniUtil.NAZIV_APP + " " + naslov + " " + ZavrsniUtil.operater.getIme() + " "
+                + ZavrsniUtil.operater.getPrezime() + " - " + ZavrsniUtil.operater.getUloga();
     }
-    
-    
-       public static String generirajBoljiOib() {
+
+    public static String generirajBoljiOib() {
         // DZ
         // Umjesto spajanja na web stranicu napraviti generiranje u java programskom jeziku
         // https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf
@@ -52,10 +46,5 @@ public class ZavrsniUtil {
         }
         return "";
     }
-    
-      
-       
-       
-    
-    
+
 }

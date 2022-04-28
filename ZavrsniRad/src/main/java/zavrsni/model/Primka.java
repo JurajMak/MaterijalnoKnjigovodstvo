@@ -1,25 +1,21 @@
-
 package zavrsni.model;
-
 
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
-
 /**
  *
  * @author juraj
  */
 @Entity
-public class Primka extends Entitet{
-    
+public class Primka extends Entitet {
+
     @ManyToOne
     @JoinColumn(name = "ura")
     private Ura ura;
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "roba")
     private Roba roba;
     private BigDecimal cijena;
@@ -37,8 +33,6 @@ public class Primka extends Entitet{
     public Primka() {
     }
 
-  
-    
     public Ura getUra() {
         return ura;
     }
@@ -63,7 +57,6 @@ public class Primka extends Entitet{
         this.kolicina = kolicina;
     }
 
-
     public BigDecimal getCijena() {
         return cijena;
     }
@@ -71,7 +64,5 @@ public class Primka extends Entitet{
     public void setCijena(BigDecimal cijena) {
         this.cijena = cijena;
     }
-    
-    
-    
+
 }

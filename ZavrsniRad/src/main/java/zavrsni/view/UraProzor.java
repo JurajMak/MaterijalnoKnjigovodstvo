@@ -1,4 +1,3 @@
-
 package zavrsni.view;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -25,40 +24,40 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class UraProzor extends javax.swing.JFrame {
+
     private DefaultTableModel m;
     private SimpleDateFormat df, fd;
     private DecimalFormat nf;
     private ObradaUra ura;
-   
+
     public UraProzor() {
         initComponents();
-        
+
         ura = new ObradaUra();
         postavke();
         load();
         ucitajDobavljaca();
     }
-       private void load() {
+
+    private void load() {
 
         List<Ura> entiteti = ura.read();
 
         Object[] red = new Object[7];
 
         for (int i = 0; i < entiteti.size(); i++) {
-           red[0] = entiteti.get(i).getId();
-           red[1] = entiteti.get(i).getPartner().getNaziv();
-           red[2] = entiteti.get(i).getPartner().getOib();          
-           red[3] = entiteti.get(i).getBrojRacuna();     
-           red[4] = nf.format(entiteti.get(i).getIznos());
-           red[5] = fd.format(entiteti.get(i).getDatumIzdavanja());
-           red[6] = fd.format(entiteti.get(i).getDatumDospijeca());
-           
-           
+            red[0] = entiteti.get(i).getId();
+            red[1] = entiteti.get(i).getPartner().getNaziv();
+            red[2] = entiteti.get(i).getPartner().getOib();
+            red[3] = entiteti.get(i).getBrojRacuna();
+            red[4] = nf.format(entiteti.get(i).getIznos());
+            red[5] = fd.format(entiteti.get(i).getDatumIzdavanja());
+            red[6] = fd.format(entiteti.get(i).getDatumDospijeca());
+
             m.addRow(red);
         }
     }
-    
-   
+
     private void postavke() {
         tblUra.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -66,9 +65,7 @@ public class UraProzor extends javax.swing.JFrame {
                 proba(evt);
             }
         });
-           
-   
-         
+
         DatePickerSettings dps = new DatePickerSettings(new Locale("hr", "HR"));
         DatePickerSettings dpr = new DatePickerSettings(new Locale("hr", "HR"));
         dps.setFormatForDatesCommonEra("dd.MM.yyyy");
@@ -85,7 +82,7 @@ public class UraProzor extends javax.swing.JFrame {
         nf = new DecimalFormat("###,###.00", symbols);
 
         m = (DefaultTableModel) tblUra.getModel();
-       
+
         setTitle(ZavrsniUtil.getNaslov("-Ura-"));
 
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
@@ -107,7 +104,8 @@ public class UraProzor extends javax.swing.JFrame {
         }
 
     }
-     private void ucitajDobavljaca(){
+
+    private void ucitajDobavljaca() {
         DefaultComboBoxModel<Partner> p = new DefaultComboBoxModel<>();
         Partner partner = new Partner();
         partner.setId(Long.valueOf(0));
@@ -119,31 +117,26 @@ public class UraProzor extends javax.swing.JFrame {
         });
         cmbDobavljac.setModel(p);
     }
-    
-      private void preuzmiVrijednosti() {
+
+    private void preuzmiVrijednosti() {
 
         var p = ura.getEntitet();
-        
-        
-        
-        
-        if(dpsDospijeca.getDate() !=null){
+
+        if (dpsDospijeca.getDate() != null) {
             p.setDatumDospijeca(Date.from(dpsDospijeca.getDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-        }else{
+        } else {
             p.setDatumDospijeca(null);
         }
-                
-         if(dpsIzdavanja.getDate() !=null){
+
+        if (dpsIzdavanja.getDate() != null) {
             p.setDatumIzdavanja(Date.from(dpsIzdavanja.getDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-        }else{
+        } else {
             p.setDatumIzdavanja(null);
         }
-        
-       
-        
+
         p.setPartner((Partner) cmbDobavljac.getSelectedItem());
         p.setBrojRacuna(txtBrojRacuna.getText());
-        
+
         try {
             p.setIznos(new BigDecimal(nf.parse(txtIznos.getText()).toString()));
 
@@ -152,8 +145,8 @@ public class UraProzor extends javax.swing.JFrame {
         }
 
     }
-      
-         private void proba(javax.swing.event.ListSelectionEvent evt) {
+
+    private void proba(javax.swing.event.ListSelectionEvent evt) {
         if (evt.getValueIsAdjusting() || tblUra.getSelectedRow() < 0) {
             return;
         }
@@ -163,25 +156,26 @@ public class UraProzor extends javax.swing.JFrame {
         ura.setEntitet(entiteti.get(ro));
         var p = ura.getEntitet();
         txtBrojRacuna.setText(p.getBrojRacuna());
-        txtIznos.setText(p.getIznos()!= null ? nf.format(p.getIznos()) : "");
+        txtIznos.setText(p.getIznos() != null ? nf.format(p.getIznos()) : "");
         dpsIzdavanja.setDate(p.getDatumIzdavanja().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        dpsDospijeca.setDate(p.getDatumDospijeca().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());   
-        
-         if ((p.getPartner())== null) {
+        dpsDospijeca.setDate(p.getDatumDospijeca().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        if ((p.getPartner()) == null) {
             cmbDobavljac.setSelectedIndex(0);
         } else {
             cmbDobavljac.setSelectedItem(p.getPartner());
-        } 
-       
+        }
+
     }
-        private void brisanjePolja() {
+
+    private void brisanjePolja() {
         txtBrojRacuna.setText(null);
         txtIznos.setText(null);
         ura.setEntitet(null);
         cmbDobavljac.setSelectedIndex(0);
 
     }
-  
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -365,10 +359,7 @@ public class UraProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIzlazActionPerformed
 
     private void btnUnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnosActionPerformed
-         
-     
-        
-        
+
         try {
 
             ura.setEntitet(new Ura());
@@ -394,13 +385,13 @@ public class UraProzor extends javax.swing.JFrame {
         }
 
         if (JOptionPane.showConfirmDialog(
-            getRootPane(),
-            "Sigurno obrisati \"" + "Uru broj " + ura.getEntitet().getId() + "\"?",
-            "Brisanje",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+                getRootPane(),
+                "Sigurno obrisati \"" + "Uru broj " + ura.getEntitet().getId() + "\"?",
+                "Brisanje",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
 
-        return;
+            return;
         }
 
         try {
@@ -409,7 +400,7 @@ public class UraProzor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Ura pod brojem " + ura.getEntitet().getId() + " obrisana!");
             m.setRowCount(0);
             load();
-           brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -434,7 +425,7 @@ public class UraProzor extends javax.swing.JFrame {
             m.setRowCount(0);
             load();
 
-             brisanjePolja();
+            brisanjePolja();
         } catch (ZavrsniException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
@@ -442,20 +433,19 @@ public class UraProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-       if (evt.getButton() == 3) {
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
 
     private void tblUraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUraMouseClicked
-    if (evt.getButton() == 3) {
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
 
-    
+
     }//GEN-LAST:event_tblUraMouseClicked
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrisanje;

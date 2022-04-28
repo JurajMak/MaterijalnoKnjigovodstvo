@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package zavrsni.model;
 
 import java.math.BigDecimal;
@@ -17,16 +13,16 @@ import javax.persistence.OneToMany;
  * @author juraj
  */
 @Entity
-public class Ira extends Entitet{
-    
+public class Ira extends Entitet {
+
     @ManyToOne
-    @JoinColumn(name="partner")
+    @JoinColumn(name = "partner")
     private Partner partner;
     private String brojRacuna;
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
-     @OneToMany(mappedBy = "ira")
+    @OneToMany(mappedBy = "ira")
     private List<Otpremnica> otp;
 
     public Ira() {
@@ -40,9 +36,6 @@ public class Ira extends Entitet{
         this.otp = otp;
     }
 
-    
-  
-   
     public Partner getPartner() {
         return partner;
     }
@@ -88,9 +81,4 @@ public class Ira extends Entitet{
         return brojRacuna;
     }
 
- 
-    
-    
-    
-    
 }

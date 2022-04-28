@@ -1,4 +1,3 @@
-
 package zavrsni.view;
 
 import java.math.BigDecimal;
@@ -25,26 +24,24 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class OtpremnicaPregled extends javax.swing.JFrame {
+
     private DefaultTableModel m;
     private SimpleDateFormat df, fd;
     private DecimalFormat nf;
     private ObradaOtpremnica otpremnica;
-   
-  
+
     public OtpremnicaPregled() {
         initComponents();
         otpremnica = new ObradaOtpremnica();
-        
 
-      
         postavke();
-       
+
         ucitajIru();
         load();
-       
+
     }
-    
-       private void load() {
+
+    private void load() {
 
         List<Otpremnica> entiteti = otpremnica.read();
 
@@ -58,15 +55,15 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
             m.addRow(red);
         }
     }
-    
-      private void postavke() {
+
+    private void postavke() {
         tblOtpremnica.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 proba(evt);
             }
         });
-        fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR")); 
+        fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR"));
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
@@ -91,16 +88,15 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
             }
             run();
         }
-        
+
     }
-    
-    
-     private void preuzmiVrijednosti() {
+
+    private void preuzmiVrijednosti() {
 
         var p = otpremnica.getEntitet();
-        
-         p.setIra((Ira) cmbOtp.getSelectedItem());
-         p.setBrojOtpremnice(txtOtp.getText());
+
+        p.setIra((Ira) cmbOtp.getSelectedItem());
+        p.setBrojOtpremnice(txtOtp.getText());
 
         try {
 
@@ -109,31 +105,29 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
 
         }
 
-        
-        
     }
-      private void proba(javax.swing.event.ListSelectionEvent evt) {
+
+    private void proba(javax.swing.event.ListSelectionEvent evt) {
         if (evt.getValueIsAdjusting() || tblOtpremnica.getSelectedRow() < 0) {
             return;
         }
-        
+
         List<Otpremnica> entiteti = otpremnica.read();
         var red = tblOtpremnica.getSelectedRow();
         otpremnica.setEntitet(entiteti.get(red));
         var p = otpremnica.getEntitet();
         txtOtp.setText(p.getBrojOtpremnice());
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
-        
-        
-        if (p.getIra()== null) {
+
+        if (p.getIra() == null) {
             cmbOtp.setSelectedIndex(0);
         } else {
             cmbOtp.setSelectedItem(p.getIra());
         }
 
     }
-      
-        private void ucitajIru() {
+
+    private void ucitajIru() {
         DefaultComboBoxModel<Ira> u = new DefaultComboBoxModel<>();
         Ira ira = new Ira();
         ira.setId(Long.valueOf(0));
@@ -145,18 +139,15 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         });
         cmbOtp.setModel(u);
     }
-          private void brisanjePolja() {
+
+    private void brisanjePolja() {
         txtCijena.setText(null);
         txtOtp.setText(null);
-        
+
         cmbOtp.setSelectedIndex(0);
-        
+
     }
-   
-   
-      
-  
-      
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -364,13 +355,13 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         }
 
         if (JOptionPane.showConfirmDialog(
-            getRootPane(),
-            "Sigurno obrisati \"" + "Otpremnicu broj " + otpremnica.getEntitet().getId() + "\"?",
-            "Brisanje",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+                getRootPane(),
+                "Sigurno obrisati \"" + "Otpremnicu broj " + otpremnica.getEntitet().getId() + "\"?",
+                "Brisanje",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
 
-        return;
+            return;
         }
 
         try {
@@ -403,10 +394,10 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku!");
             return;
         }
-        if(cmbOtp.getSelectedIndex()==0){
+        if (cmbOtp.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(getRootPane(), "Promjena vrijednosti je moguća tek nakon unosa Ira i spajanja otpremnice s Ira-om!");
             return;
-        } 
+        }
         try {
             preuzmiVrijednosti();
 
@@ -430,17 +421,17 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovaOtpActionPerformed
 
     private void btnAzuriraj1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAzuriraj1ActionPerformed
-          if (otpremnica.getEntitet() == null) {
+        if (otpremnica.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku!");
             return;
         }
 
         try {
             preuzmiVrijednosti();
-           
+
             otpremnica.update();
-            JOptionPane.showMessageDialog(getRootPane(), "Otpremnica pod brojem " + otpremnica.getEntitet().getId()  + 
-                    " povezana sa Ira-om broj " + otpremnica.getEntitet().getIra()+"!");
+            JOptionPane.showMessageDialog(getRootPane(), "Otpremnica pod brojem " + otpremnica.getEntitet().getId()
+                    + " povezana sa Ira-om broj " + otpremnica.getEntitet().getIra() + "!");
             m.setRowCount(0);
             load();
 
@@ -450,7 +441,6 @@ public class OtpremnicaPregled extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAzuriraj1ActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAzuriraj1;

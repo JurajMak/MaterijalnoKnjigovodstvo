@@ -36,7 +36,7 @@ public class UnosPartner extends javax.swing.JFrame {
     private void load() {
 
         List<Partner> entiteti = obrada.read();
-        
+
         Object[] red = new Object[5];
 
         for (int i = 0; i < entiteti.size(); i++) {
@@ -431,7 +431,7 @@ public class UnosPartner extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-      if(evt.getButton()==3){
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
@@ -441,7 +441,7 @@ public class UnosPartner extends javax.swing.JFrame {
     }//GEN-LAST:event_jIzbornikActionPerformed
 
     private void tblMeniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMeniMouseClicked
-      if(evt.getButton()==3){
+        if (evt.getButton() == 3) {
             brisanjePolja();
         }
     }//GEN-LAST:event_tblMeniMouseClicked

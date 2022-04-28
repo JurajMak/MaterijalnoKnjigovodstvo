@@ -1,4 +1,3 @@
-
 package zavrsni.model;
 
 import java.util.List;
@@ -16,8 +15,8 @@ public class Partner extends Entitet {
     private String adresa;
     private String oib;
     private String email;
-     @OneToMany(mappedBy = "partner")
-    private List <Ira> ira;
+    @OneToMany(mappedBy = "partner")
+    private List<Ira> ira;
     @OneToMany(mappedBy = "partner")
     private List<Ura> ura;
 
@@ -74,6 +73,4 @@ public class Partner extends Entitet {
         this.ura = ura;
     }
 
-    
-    
 }

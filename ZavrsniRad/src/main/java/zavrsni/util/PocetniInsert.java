@@ -56,7 +56,7 @@ public class PocetniInsert {
                 pr.setKolicina(faker.number().numberBetween(10, 100));
                 pr.setUra(u);
                 pr.setRoba(r);
-                pr.setOtpremnicaPrimka((i + 1)+"/2022");
+                pr.setOtpremnicaPrimka((i + 1) + "/2022");
                 ir.setBrojRacuna((i + 1) + "/2022");
                 ir.setDatumDospijeca(new Date());
                 ir.setDatumIzdavanja(new Date());

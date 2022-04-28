@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package zavrsni.model;
 
 import javax.persistence.Entity;
@@ -11,16 +7,17 @@ import javax.persistence.Entity;
  * @author juraj
  */
 @Entity
-public class Operater extends Entitet{
+public class Operater extends Entitet {
+
     private String lozinka;
     private String uloga;
     private String ime;
     private String prezime;
 
-    public Operater(){
-        
+    public Operater() {
+
     }
-    
+
     public String getLozinka() {
         return lozinka;
     }
@@ -53,8 +50,4 @@ public class Operater extends Entitet{
         this.prezime = prezime;
     }
 
-  
-
-  
-    
 }

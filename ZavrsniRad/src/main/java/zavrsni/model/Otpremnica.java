@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package zavrsni.model;
 
 import java.math.BigDecimal;
@@ -14,19 +10,19 @@ import javax.persistence.ManyToOne;
  * @author juraj
  */
 @Entity
-public class Otpremnica extends Entitet{
-   @ManyToOne 
-   @JoinColumn(name = "roba")
-   private Roba roba;
-   @ManyToOne
-   @JoinColumn(name = "ira")
-   private Ira ira;
-   private BigDecimal cijena;
-   private String brojOtpremnice;
+public class Otpremnica extends Entitet {
+
+    @ManyToOne
+    @JoinColumn(name = "roba")
+    private Roba roba;
+    @ManyToOne
+    @JoinColumn(name = "ira")
+    private Ira ira;
+    private BigDecimal cijena;
+    private String brojOtpremnice;
 
     public Otpremnica() {
     }
-   
 
     public String getBrojOtpremnice() {
         return brojOtpremnice;
@@ -36,8 +32,6 @@ public class Otpremnica extends Entitet{
         this.brojOtpremnice = brojOtpremnice;
     }
 
-    
-
     public BigDecimal getCijena() {
         return cijena;
     }
@@ -46,8 +40,7 @@ public class Otpremnica extends Entitet{
         this.cijena = cijena;
     }
 
-   
-   private Integer kolicina;
+    private Integer kolicina;
 
     public Roba getRoba() {
         return roba;
@@ -65,7 +58,6 @@ public class Otpremnica extends Entitet{
         this.ira = ira;
     }
 
-
     public Integer getKolicina() {
         return kolicina;
     }
@@ -73,6 +65,5 @@ public class Otpremnica extends Entitet{
     public void setKolicina(Integer kolicina) {
         this.kolicina = kolicina;
     }
-   
-   
+
 }

@@ -31,13 +31,12 @@ public class IraProzor extends javax.swing.JFrame {
     private SimpleDateFormat df, fd;
     private DecimalFormat nf;
     private ObradaIra ira;
-    
 
     public IraProzor() {
         initComponents();
-        ira = new ObradaIra();    
+        ira = new ObradaIra();
         postavke();
-        ucitajKupca();       
+        ucitajKupca();
         load();
     }
 
@@ -120,8 +119,6 @@ public class IraProzor extends javax.swing.JFrame {
         cmbKupac.setModel(p);
     }
 
-    
-
     private void preuzmiVrijednosti() {
 
         var i = ira.getEntitet();
@@ -138,7 +135,6 @@ public class IraProzor extends javax.swing.JFrame {
             i.setDatumIzdavanja(null);
         }
 
-       
         i.setPartner((Partner) cmbKupac.getSelectedItem());
         i.setBrojRacuna(txtBrojRacuna.getText());
 
@@ -171,8 +167,6 @@ public class IraProzor extends javax.swing.JFrame {
         } else {
             cmbKupac.setSelectedItem(p.getPartner());
         }
-     
-       
 
     }
 
@@ -181,7 +175,7 @@ public class IraProzor extends javax.swing.JFrame {
         txtIznos.setText(null);
         ira.setEntitet(null);
         cmbKupac.setSelectedIndex(0);
-       
+
     }
 
     @SuppressWarnings("unchecked")
@@ -367,13 +361,13 @@ public class IraProzor extends javax.swing.JFrame {
         if (!mi.matches()) {
             JOptionPane.showMessageDialog(getRootPane(), "Obavezan broj računa u 00/0000 formatu!");
             return;
-        } 
+        }
 
         if (ira.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku!");
             return;
         }
-    /*    
+        /*    
         if(cmbKupac.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(getRootPane(), "Obavezan unos Kupca! ");
         
@@ -436,7 +430,7 @@ public class IraProzor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Obavezan broj računa u 00/0000 formatu!");
             return;
         }
-     /*   if(cmbKupac.getSelectedIndex()==0){
+        /*   if(cmbKupac.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(getRootPane(), "Obavezan unos Kupca! ");
         
         } */

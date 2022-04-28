@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package zavrsni.controller;
 
 import java.math.BigDecimal;
@@ -36,23 +32,23 @@ public class ObradaOtpremnica extends Obrada<Otpremnica> {
     }
 
     private void kontrolaOtpremnice() throws ZavrsniException {
-        
-          if(entitet.getCijena()== null || entitet.getCijena().compareTo(BigDecimal.ZERO)<0){
+
+        if (entitet.getCijena() == null || entitet.getCijena().compareTo(BigDecimal.ZERO) < 0) {
             throw new ZavrsniException("Obavezan unos cijene robe");
         }
-        
-        if(entitet.getKolicina()==null || entitet.getKolicina()==0){
+
+        if (entitet.getKolicina() == null || entitet.getKolicina() == 0) {
             throw new ZavrsniException("Obavezan unos količine");
         }
-        
-        if(entitet.getRoba()== null || entitet.getRoba().getId().equals(Long.valueOf(0))){
+
+        if (entitet.getRoba() == null || entitet.getRoba().getId().equals(Long.valueOf(0))) {
             throw new ZavrsniException("Obavezan unos Robe");
         }
-        
-        if(entitet.getBrojOtpremnice()== null || entitet.getBrojOtpremnice().trim().isEmpty()){
+
+        if (entitet.getBrojOtpremnice() == null || entitet.getBrojOtpremnice().trim().isEmpty()) {
             throw new ZavrsniException("Obavezan unos broja otpremnice");
         }
-        
+
     }
 
 }

@@ -38,15 +38,14 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
 
-        
         postavke();
         load();
-        
+
         ucitajUru();
 
     }
 
-       private void load() {
+    private void load() {
 
         List<Primka> entiteti = primka.read();
 
@@ -70,7 +69,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
                 proba(evt);
             }
         });
-        fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR")); 
+        fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR"));
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
@@ -103,7 +102,6 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         var p = primka.getEntitet();
         p.setOtpremnicaPrimka(txtOtpPrim.getText());
         p.setUra((Ura) cmbUra.getSelectedItem());
-        
 
         try {
 
@@ -112,21 +110,18 @@ public class PrimkaUpdate extends javax.swing.JFrame {
 
         }
 
-        
-        
     }
 
     private void proba(javax.swing.event.ListSelectionEvent evt) {
         if (evt.getValueIsAdjusting() || tblPrimka.getSelectedRow() < 0) {
             return;
         }
-        
+
         List<Primka> entiteti = primka.read();
         var red = tblPrimka.getSelectedRow();
         primka.setEntitet(entiteti.get(red));
         var p = primka.getEntitet();
-              
-              
+
         var ro = roba.getEntitet();
         txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
         txtOtpPrim.setText(p.getOtpremnicaPrimka());
@@ -136,19 +131,17 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         } else {
             cmbUra.setSelectedItem(p.getUra());
         }
-       
 
     }
 
     private void brisanjePolja() {
         txtCijena.setText(null);
         txtOtpPrim.setText(null);
-        
+
         cmbUra.setSelectedIndex(0);
-        
+
     }
 
-  
     private void ucitajUru() {
         DefaultComboBoxModel<Ura> u = new DefaultComboBoxModel<>();
         Ura ura = new Ura();
@@ -362,8 +355,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnosActionPerformed
-        
- 
+
         new NovaPrimka().setVisible(true);
     }//GEN-LAST:event_btnUnosActionPerformed
 
@@ -385,25 +377,21 @@ public class PrimkaUpdate extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
             return;
         }
-        
-        if(cmbUra.getSelectedIndex()==0){
+
+        if (cmbUra.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(getRootPane(), "Promjena vrijednosti je moguća tek nakon unosa Ura i spajanja primke s Ura-om!");
             return;
         }
-        
-        
-        
+
         if (primka.getEntitet() == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberite stavku");
             return;
         }
-         
+
         try {
-            
-            
+
             preuzmiVrijednosti();
-            
-            
+
             primka.update();
             JOptionPane.showMessageDialog(getRootPane(), "Primka pod brojem " + primka.getEntitet().getId() + " promijenjena!");
             m.setRowCount(0);
@@ -451,7 +439,7 @@ public class PrimkaUpdate extends javax.swing.JFrame {
         if (evt.getButton() == 3) {
             brisanjePolja();
         }
-       
+
 
     }//GEN-LAST:event_formMouseClicked
 
@@ -460,8 +448,8 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrisanjeKeyPressed
 
     private void btnPrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrActionPerformed
-         m.setRowCount(0);
-            load();
+        m.setRowCount(0);
+        load();
     }//GEN-LAST:event_btnPrActionPerformed
 
     private void tblPrimkaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPrimkaMouseClicked
@@ -482,8 +470,8 @@ public class PrimkaUpdate extends javax.swing.JFrame {
             preuzmiVrijednosti();
 
             primka.update();
-            JOptionPane.showMessageDialog(getRootPane(), "Primka pod brojem " + primka.getEntitet().getId() +
-                " povezana sa Ura-om broj " + primka.getEntitet().getUra()+"!");
+            JOptionPane.showMessageDialog(getRootPane(), "Primka pod brojem " + primka.getEntitet().getId()
+                    + " povezana sa Ura-om broj " + primka.getEntitet().getUra() + "!");
             m.setRowCount(0);
             load();
 
@@ -494,11 +482,11 @@ public class PrimkaUpdate extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAzurirajActionPerformed
 
     private void txtCijenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCijenaKeyPressed
-      
+
     }//GEN-LAST:event_txtCijenaKeyPressed
 
     private void txtOtpPrimKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOtpPrimKeyPressed
-   
+
     }//GEN-LAST:event_txtOtpPrimKeyPressed
 
 

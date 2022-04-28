@@ -1,4 +1,3 @@
-
 package zavrsni.view;
 
 import java.math.BigDecimal;
@@ -35,25 +34,23 @@ public class PrimkaTest extends javax.swing.JFrame {
     private DecimalFormat nf;
     private ObradaPrimka primka;
     private ObradaRoba roba;
-    
+
     public PrimkaTest() {
         initComponents();
-    
+
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
-        
-        
-       
+
         sirinaStupca();
         postavke();
         load();
         ucitajDobavljaca();
-    //    ucitajRobe();
+        //    ucitajRobe();
         ucitajUru();
-        
+
     }
 
-   private void load() {
+    private void load() {
 
         List<Primka> entiteti = primka.read();
 
@@ -62,7 +59,7 @@ public class PrimkaTest extends javax.swing.JFrame {
         for (int i = 0; i < entiteti.size(); i++) {
             red[0] = entiteti.get(i).getId();
             red[1] = entiteti.get(i).getUra().getPartner().getNaziv();
-          
+
             red[2] = entiteti.get(i).getKolicina();
             red[3] = nf.format(entiteti.get(i).getCijena());
             red[4] = nf.format(entiteti.get(i).getCijena().multiply(BigDecimal.valueOf(1.75)));
@@ -72,25 +69,23 @@ public class PrimkaTest extends javax.swing.JFrame {
             m.addRow(red);
         }
     }
-    
-     private void postavke() {
+
+    private void postavke() {
         tblPrimka.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 proba(evt);
             }
         });
-           
+
 //         lstDodajRobu.setCellRenderer(new PrikazRoba());
-         
-        
         fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR"));
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
 
         m = (DefaultTableModel) tblPrimka.getModel();
-       
+
         setTitle(ZavrsniUtil.getNaslov("-Primka-"));
 
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
@@ -116,16 +111,14 @@ public class PrimkaTest extends javax.swing.JFrame {
     private void preuzmiVrijednosti() {
 
         var p = primka.getEntitet();
-        
+
         p.setUra((Ura) cmbUra.getSelectedItem());
-        
-        
+
         try {
             p.getUra().setPartner((Partner) cmbDobavljac.getSelectedItem());
         } catch (Exception e) {
         }
-        
-        
+
         try {
             p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
 
@@ -154,37 +147,34 @@ public class PrimkaTest extends javax.swing.JFrame {
         txtCijena.setText(p.getCijena().toString());
         txtKolicina.setText(p.getKolicina().toString());
 
-        if ((p.getUra().getPartner())== null) {
+        if ((p.getUra().getPartner()) == null) {
             cmbDobavljac.setSelectedIndex(0);
         } else {
             cmbDobavljac.setSelectedItem(p.getUra().getPartner());
-        } 
+        }
 
         if (p.getUra() == null) {
             cmbUra.setSelectedIndex(0);
         } else {
             cmbUra.setSelectedItem(p.getUra());
         }
- 
-       DefaultListModel<Roba> m = new DefaultListModel<>();
-        if (p.getRoba()!= null) {
-            
-            
-  //          m.addAll(p.getRoba());
+
+        DefaultListModel<Roba> m = new DefaultListModel<>();
+        if (p.getRoba() != null) {
+
+            //          m.addAll(p.getRoba());
         }
         lstDodajRobu.setModel(m);
-      
-       
-       
+
     }
 
     private void brisanjePolja() {
-      DefaultListModel<Roba> remove = new DefaultListModel<>();
-         remove.removeAllElements();
+        DefaultListModel<Roba> remove = new DefaultListModel<>();
+        remove.removeAllElements();
         txtKolicina.setText(null);
         primka.setEntitet(null);
-       cmbUra.setSelectedIndex(0);
-       cmbDobavljac.setSelectedIndex(0);
+        cmbUra.setSelectedIndex(0);
+        cmbDobavljac.setSelectedIndex(0);
         lstDodajRobu.setModel(remove);
     }
 
@@ -196,15 +186,15 @@ public class PrimkaTest extends javax.swing.JFrame {
         tblPrimka.getColumnModel().getColumn(4).setPreferredWidth(20);
         tblPrimka.getColumnModel().getColumn(5).setPreferredWidth(20);
         tblPrimka.getColumnModel().getColumn(6).setPreferredWidth(20);
-        
+
         tblPrimka.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
     }
 
-   private void ucitajRobe() {
-    DefaultListModel<Roba> m = new DefaultListModel<>();
+    private void ucitajRobe() {
+        DefaultListModel<Roba> m = new DefaultListModel<>();
         List<Roba> entiteti;
-  /*      
+        /*      
         
         entiteti = roba.read(txtTrazi.getText());
         
@@ -217,14 +207,9 @@ public class PrimkaTest extends javax.swing.JFrame {
         
         lstRoba.setModel(m);
        
-     */
-        
-    } 
-    
-    
-    
-    
-    
+         */
+
+    }
 
     private void ucitajUru() {
         DefaultComboBoxModel<Ura> u = new DefaultComboBoxModel<>();
@@ -238,8 +223,8 @@ public class PrimkaTest extends javax.swing.JFrame {
         });
         cmbUra.setModel(u);
     }
-    
-    private void ucitajDobavljaca(){
+
+    private void ucitajDobavljaca() {
         DefaultComboBoxModel<Partner> p = new DefaultComboBoxModel<>();
         Partner partner = new Partner();
         partner.setId(Long.valueOf(0));
@@ -251,12 +236,6 @@ public class PrimkaTest extends javax.swing.JFrame {
         });
         cmbDobavljac.setModel(p);
     }
-   
-
-
-
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -558,13 +537,13 @@ public class PrimkaTest extends javax.swing.JFrame {
         }
 
         if (JOptionPane.showConfirmDialog(
-            getRootPane(),
-            "Sigurno obrisati \"" + "Primku broj " + primka.getEntitet().getId() + "\"?",
-            "Brisanje",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+                getRootPane(),
+                "Sigurno obrisati \"" + "Primku broj " + primka.getEntitet().getId() + "\"?",
+                "Brisanje",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
 
-        return;
+            return;
         }
 
         try {
@@ -623,7 +602,7 @@ public class PrimkaTest extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultListModel<Roba> r;
 
- /*       if(primka.getEntitet()!=null){
+        /*       if(primka.getEntitet()!=null){
             r = (DefaultListModel<Roba>)lstDodajRobu.getModel();
         }else{
             primka.setEntitet(new Primka());
@@ -646,8 +625,8 @@ public class PrimkaTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultListModel<Roba> m = (DefaultListModel<Roba>)lstDodajRobu.getModel();
-  /*      for(Roba r : lstDodajRobu.getSelectedValuesList()){
+        DefaultListModel<Roba> m = (DefaultListModel<Roba>) lstDodajRobu.getModel();
+        /*      for(Roba r : lstDodajRobu.getSelectedValuesList()){
             m.removeElement(r);
             for(Roba mp : primka.getEntitet().getRoba()){
                 if(mp.getId().equals(r.getId())){
@@ -665,7 +644,6 @@ public class PrimkaTest extends javax.swing.JFrame {
         ucitajRobe();
     }//GEN-LAST:event_btnTraziActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrisanje;
