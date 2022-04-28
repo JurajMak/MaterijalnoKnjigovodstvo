@@ -2,13 +2,13 @@
     <session-factory>
         
          <!-- 
-                 create database materijalnoknjigovodstvo character set utf8mb4 COLLATE utf8mb4_croatian_ci;
+                create database zavrsnirad character set utf8mb4 COLLATE utf8mb4_croatian_ci; 
         -->
         
         
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mariadb://localhost:3306/materijalnoknjigovodstvo?useSSL=false</property>
+        <property name="connection.url">jdbc:mariadb://localhost:3306/zavrsnirad?useSSL=false</property>
         <property name="connection.username">edunova</property>
         <property name="connection.password">edunova</property>
         <!-- JDBC connection pool settings ... using built-in test pool -->
@@ -39,7 +39,6 @@
         <mapping class="zavrsni.model.Otpremnica" />
         <mapping class="zavrsni.model.Ira" />
         <mapping class="zavrsni.model.Operater" />
-       
         
     </session-factory>
 </hibernate-configuration>

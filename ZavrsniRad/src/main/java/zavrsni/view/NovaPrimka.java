@@ -1,11 +1,14 @@
+
 package zavrsni.view;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -33,28 +36,31 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class NovaPrimka extends javax.swing.JFrame {
-
+    
     private ObradaPrimka primka;
     private DefaultTableModel m;
     private ObradaRoba roba;
     private DecimalFormat nf;
-    private SimpleDateFormat df;
     private BigDecimal iznos = BigDecimal.ZERO;
     private BigDecimal total = BigDecimal.ZERO;
     private List<Roba> robe = new ArrayList<>();
+    private SimpleDateFormat df,sdf;
 
     public NovaPrimka() {
         initComponents();
         primka = new ObradaPrimka();
         roba = new ObradaRoba();
-
+        Roba  ro = new Roba();
         lstRoba.setCellRenderer(new PrikazRoba());
-
+        
         postavke();
+        
         ucitajRobe();
         ucitajDobavljaca();
+        
         test();
 
+         
     }
 
     private void ucitajRobe() {
@@ -74,16 +80,19 @@ public class NovaPrimka extends javax.swing.JFrame {
     }
 
     private void postavke() {
-        tblDodajPrimku.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
-            promjene(evt);
-        });
+  
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
 
-        setTitle(ZavrsniUtil.getNaslov("- Nova Primka -"));
-
+        setTitle(ZavrsniUtil.getNaslov("-Nova Primka-"));
+        DatePickerSettings dps = new DatePickerSettings(new Locale("hr", "HR"));
+        dps.setFormatForDatesCommonEra("dd.MM.yyyy");
+        dps.setTranslationClear("Očisti");
+        dps.setTranslationToday("Danas");
+        dpsPrimka.setSettings(dps);
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
+        
         Vrijeme v = new Vrijeme();
         v.start();
     }
@@ -107,9 +116,8 @@ public class NovaPrimka extends javax.swing.JFrame {
         txtCijena.setText(null);
         txtKolicina.setText(null);
         primka.setEntitet(null);
-        txtOtpPrm.setText(null);
         cmbDobavljac.setSelectedIndex(0);
-        m.setRowCount(0);
+         m.setRowCount(0);
 
     }
 
@@ -125,73 +133,74 @@ public class NovaPrimka extends javax.swing.JFrame {
         });
         cmbDobavljac.setModel(p);
     }
+    
+    
+    
+    
 
     private void test() {
-
         m = new DefaultTableModel();
         primka = new ObradaPrimka();
-        String[] s = {"Šifra", "Naziv", "Dobavljač", "Količina", "M.Jed", "Cijena", "Iznos", "Otp-Prim"};
+        String[] s = {"Šifra", "Naziv","Dobavljač", "Količina", "M.Jed", "Cijena","Iznos","Br.Rač"};
         for (String i : s) {
             m.addColumn(i);
         }
-
-        tblDodajPrimku.setModel(m);
-
-    }
-
- 
-
-    private void promjene(javax.swing.event.ListSelectionEvent evt) {
-        if (evt.getValueIsAdjusting() || tblDodajPrimku.getSelectedRow() < 0) {
-            return;
-        }
-
-        List<Primka> entiteti = primka.read();
-        var red = tblPrimka.getSelectedRow();
-        primka.setEntitet(entiteti.get(red));
-        var p = primka.getEntitet();
-
-        txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
-
-    }   
-    
-    private void preuzimanjeVrijednosti(){
-         primka.setEntitet(new Primka());
-
-        var p = primka.getEntitet();
         
-        try {
+       
+        tblDodajPrimku.setModel(m);
+        
+    }
+    
+     private void preuzimanjeVrijednosti() {
 
-            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        var p = primka.getEntitet();
+     
+        try {
+           
+          p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
         } catch (Exception e) {
 
         }
-    }
 
-    private void vrijednosti() throws ParseException {
+        try {
+            p.setKolicina(Integer.parseInt(txtKolicina.getText()));
+        } catch (Exception e) {
+
+        }
+        
+    }
+     private void vrijednosti() throws ParseException {
 
         primka.setEntitet(new Primka());
 
         var p = primka.getEntitet();
         p.setOtpremnicaPrimka(txtOtpPrm.getText());
-        p.setRoba(robe);
-        p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        p.setRoba(lstRoba.getSelectedValue());
+            try {
+
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        } catch (Exception e) {
+
+        }
         p.setKolicina((Integer.parseInt(txtKolicina.getText())));
-        txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+       // txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
         txtKolicina.setText(p.getKolicina().toString());
 
         for (int i = 0, rows = tblDodajPrimku.getRowCount(); i < rows; i++) {
             Integer kol = (Integer) tblDodajPrimku.getValueAt(i, 3);
-            //   BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
+            //  BigDecimal cije = (BigDecimal) nf.parseObject((String) (tblDodajPrimku.getValueAt(i, 5)));
             //  total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
-            Long cije = (Long) nf.parse((String) tblDodajPrimku.getValueAt(i, 5));
-            total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+            Long cije = (Long) nf.parseObject((String) tblDodajPrimku.getValueAt(i, 5));
+           total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
 
         }
 
         p.setCijena(total);
     }
-
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -214,9 +223,11 @@ public class NovaPrimka extends javax.swing.JFrame {
         jSat = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDodajPrimku = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
         btnPovratak = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         txtOtpPrm = new javax.swing.JTextField();
+        dpsPrimka = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel5 = new javax.swing.JLabel();
 
         tblPrimka.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -248,11 +259,6 @@ public class NovaPrimka extends javax.swing.JFrame {
                 lstRobaMouseClicked(evt);
             }
         });
-        lstRoba.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstRobaValueChanged(evt);
-            }
-        });
         jScrollPane4.setViewportView(lstRoba);
 
         jLabel4.setText("Roba");
@@ -270,7 +276,7 @@ public class NovaPrimka extends javax.swing.JFrame {
             }
         });
 
-        btnDodaj.setText("Unesi");
+        btnDodaj.setText("Dodaj");
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
@@ -297,7 +303,7 @@ public class NovaPrimka extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Šifra", "Dobavljač", "Naziv", "Količina", "M.Jed", "Cijena", "Otp-Primka"
+                "Šifra", "Dobavljač", "Naziv", "Količina", "M.Jed", "Cijena", "Br.Otp-Prim"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -315,8 +321,6 @@ public class NovaPrimka extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblDodajPrimku);
 
-        jLabel6.setText("Otp-Primka");
-
         btnPovratak.setText("Povratak");
         btnPovratak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,11 +328,20 @@ public class NovaPrimka extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Otp-Primka");
+
         txtOtpPrm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtOtpPrmActionPerformed(evt);
             }
         });
+        txtOtpPrm.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtOtpPrmKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("Datum zaprimanja");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -353,31 +366,34 @@ public class NovaPrimka extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(23, 23, 23))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(txtOtpPrm, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnSpremi, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(252, 252, 252))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSpremi, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(45, 45, 45)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtOtpPrm)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel6)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                        .addGap(159, 159, 159)))))
-                        .addGap(41, 41, 41))
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(dpsPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(28, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(btnPovratak)
@@ -387,20 +403,22 @@ public class NovaPrimka extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtKolicina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCijena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbDobavljac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOtpPrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOtpPrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpsPrimka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTrazi)
@@ -426,45 +444,55 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTraziActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        
         preuzimanjeVrijednosti();
-        String samobroj = "[,.0-9]+";
+        String samobroj = "[0-9]+";
         Pattern pe = Pattern.compile(samobroj);
         Matcher ma = pe.matcher(txtCijena.getText());
         Matcher mi = pe.matcher(txtKolicina.getText());
         if (!mi.matches() || !ma.matches()) {
-            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
+            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost!");
             return;
         }
 
-        if (txtKolicina.getText().trim().isEmpty() || cmbDobavljac.getItemCount() == 0) {
-            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+        if (txtKolicina.getText().trim().isEmpty() || cmbDobavljac.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke!");
             return;
         }
 
         if (lstRoba.getSelectedValue() == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke!");
             return;
         }
-
+        
+    
         Object[] red = new Object[8];
         red[0] = lstRoba.getSelectedValue().getId();
         red[1] = lstRoba.getSelectedValue().getNaziv();
-        red[2] = cmbDobavljac.getSelectedItem();
+        red[2] = cmbDobavljac.getSelectedItem();        
         red[3] = Integer.parseInt(txtKolicina.getText());
-        red[4] = lstRoba.getSelectedValue().getMjernaJedinica();
-        red[5] = nf.format(new BigDecimal(txtCijena.getText()));
+        red[4] = lstRoba.getSelectedValue().getMjernaJedinica();       
+        red[5] = nf.format(new BigDecimal(txtCijena.getText()));       
         red[6] = nf.format(new BigDecimal((txtCijena.getText())).multiply(BigDecimal.valueOf(Integer.parseInt(txtKolicina.getText()))));
         red[7] = txtOtpPrm.getText();
-
+        
+        
         m.addRow(red);
         tblDodajPrimku.setModel(m);
         robe.add(lstRoba.getSelectedValue());
-
-
+        
+        
+        
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnSpremiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpremiActionPerformed
-
+        if(tblDodajPrimku.getRowCount()==0){
+            JOptionPane.showMessageDialog(getRootPane(), "Ako ste unijeli sve podatke, prvo morate dodati podatke u tablicu "
+                    + "pritiskom na tipku 'Dodaj', zatim ih možete spremiti.");
+            
+            return;
+        }
+        
         try {
 
             vrijednosti();
@@ -489,6 +517,7 @@ public class NovaPrimka extends javax.swing.JFrame {
         }
 
 
+        
     }//GEN-LAST:event_btnSpremiActionPerformed
 
     private void txtTraziKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTraziKeyPressed
@@ -499,19 +528,19 @@ public class NovaPrimka extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTraziKeyPressed
 
     private void lstRobaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstRobaMouseClicked
-        if (evt.getButton() == 3) {
+        if(evt.getButton()==3){
             brisanjePolja();
         }
     }//GEN-LAST:event_lstRobaMouseClicked
 
     private void tblDodajPrimkuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDodajPrimkuMouseClicked
-        if (evt.getButton() == 3) {
+      if(evt.getButton()==3){
             brisanjePolja();
         }
     }//GEN-LAST:event_tblDodajPrimkuMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if (evt.getButton() == 3) {
+         if(evt.getButton()==3){
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
@@ -524,20 +553,29 @@ public class NovaPrimka extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtOtpPrmActionPerformed
 
-    private void lstRobaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstRobaValueChanged
+    private void txtOtpPrmKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOtpPrmKeyPressed
+        if (txtOtpPrm.getText().trim().isEmpty()) {
+            return;
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        //    btnDodajKeyPressed(evt);
 
-    }//GEN-LAST:event_lstRobaValueChanged
-  
+        }
+    }//GEN-LAST:event_txtOtpPrmKeyPressed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnPovratak;
     private javax.swing.JButton btnSpremi;
     private javax.swing.JButton btnTrazi;
     private javax.swing.JComboBox<Partner> cmbDobavljac;
+    private com.github.lgooddatepicker.components.DatePicker dpsPrimka;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jSat;
     private javax.swing.JScrollPane jScrollPane1;

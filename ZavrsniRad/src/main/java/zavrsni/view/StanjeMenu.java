@@ -31,12 +31,13 @@ public class StanjeMenu extends javax.swing.JFrame {
 
     public StanjeMenu() {
         initComponents();
-
+        
         obrada = new ObradaRoba();
-
-        sirinaStupca();
+     
+        sirinaStupca();       
         postavke();
         load();
+       
 
     }
 
@@ -64,12 +65,12 @@ public class StanjeMenu extends javax.swing.JFrame {
      * list selection listener implementiran u jtable
      */
     private void postavke() {
-        tblMeni.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
-            promjenaVrijednosti(evt);
+          tblMeni.getSelectionModel().addListSelectionListener((javax.swing.event.ListSelectionEvent evt) -> {
+           promjenaVrijednosti(evt);
         });
         m = (DefaultTableModel) tblMeni.getModel();
-
-        setTitle(ZavrsniUtil.getNaslov("- Stanje -"));
+        
+        setTitle(ZavrsniUtil.getNaslov("-Stanje-"));
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
         df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
@@ -104,13 +105,13 @@ public class StanjeMenu extends javax.swing.JFrame {
         try {
             s.setKolicina(Integer.parseInt(txtKolicina.getText()));
         } catch (Exception e) {
-
+          //  s.setKolicina(0);
         }
         try {
 
             s.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
         } catch (Exception e) {
-
+         //   s.setCijena(BigDecimal.ZERO);
         }
 
     }
@@ -188,12 +189,13 @@ public class StanjeMenu extends javax.swing.JFrame {
             }
         });
 
+        tblMeni.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblMeni.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Šifra", "Naziv", "Količina", "M.Jed.", "Nab. cijena", "VP. cijena", "MP. cijena"
+                "Šifra", "Naziv", "Količina", "M.Jed.", "Nab. cijena", "V. cijena", "M. cijena"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -204,7 +206,6 @@ public class StanjeMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblMeni.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblMeni.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMeniMouseClicked(evt);
@@ -362,7 +363,7 @@ public class StanjeMenu extends javax.swing.JFrame {
             obrada.setEntitet(new Roba());
             preuzmiVrijednosti();
             obrada.create();
-            JOptionPane.showMessageDialog(getRootPane(), "Unos uspješan!");
+            JOptionPane.showMessageDialog(getRootPane(), "Unos" + " " + obrada.getEntitet().getNaziv() + " " + "uspješan!");
             m.setRowCount(0);
             load();
             brisanjePolja();
@@ -398,7 +399,7 @@ public class StanjeMenu extends javax.swing.JFrame {
 
             obrada.delete();
             JOptionPane.showMessageDialog(getRootPane(), "Stavka " + obrada.getEntitet().getNaziv() + " uspješno " + "obrisana!");
-
+           
             m.setRowCount(0);
             load();
             brisanjePolja();
@@ -452,10 +453,12 @@ public class StanjeMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Nakon tipke 'OK' , na tipkovnici pritisnite  tipku 'Backspace' za nastavak unosa!");
             txtMjerna.setEditable(false);
             txtMjerna.setText(null);
-        } else {
+        } else{
             txtMjerna.setEditable(true);
         }
-
+          
+        
+  
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtCijena.requestFocus();
         }
@@ -485,7 +488,7 @@ public class StanjeMenu extends javax.swing.JFrame {
                 obrada.setEntitet(new Roba());
                 preuzmiVrijednosti();
                 obrada.create();
-                JOptionPane.showMessageDialog(getRootPane(), "Unos uspješan");
+                JOptionPane.showMessageDialog(getRootPane(), "Unos" + " " + obrada.getEntitet().getNaziv() + " " + "uspješan!");
                 m.setRowCount(0);
                 load();
 
@@ -520,19 +523,22 @@ public class StanjeMenu extends javax.swing.JFrame {
         /**
          * klikanjem desnog klika miša van tablice briše vrijednosti u poljima
          */
-        if (evt.getButton() == 3) {
+         if(evt.getButton()==3){
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
 
     private void tblMeniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMeniMouseClicked
-        /**
-         * klikanjem desnog klika miša po tablici tablice briše vrijednosti u
-         * poljima
+         /**
+         * klikanjem desnog klika miša po tablici tablice briše vrijednosti u poljima
          */
-        if (evt.getButton() == 3) {
+      if(evt.getButton()==3){
             brisanjePolja();
-        }
+        } 
+            
+           
+
+        
 
 
     }//GEN-LAST:event_tblMeniMouseClicked

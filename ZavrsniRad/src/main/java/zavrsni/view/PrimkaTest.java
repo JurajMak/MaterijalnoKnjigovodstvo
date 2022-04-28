@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -83,7 +81,7 @@ public class PrimkaTest extends javax.swing.JFrame {
             }
         });
            
-         lstDodajRobu.setCellRenderer(new PrikazRoba());
+//         lstDodajRobu.setCellRenderer(new PrikazRoba());
          
         
         fd = new SimpleDateFormat("dd. MMMM. yyy.", new Locale("hr", "HR"));
@@ -172,7 +170,7 @@ public class PrimkaTest extends javax.swing.JFrame {
         if (p.getRoba()!= null) {
             
             
-   //       m.addAll((Collection<? extends Roba>) p.getRoba());
+  //          m.addAll(p.getRoba());
         }
         lstDodajRobu.setModel(m);
       
@@ -206,7 +204,7 @@ public class PrimkaTest extends javax.swing.JFrame {
    private void ucitajRobe() {
     DefaultListModel<Roba> m = new DefaultListModel<>();
         List<Roba> entiteti;
-       
+  /*      
         
         entiteti = roba.read(txtTrazi.getText());
         
@@ -219,7 +217,7 @@ public class PrimkaTest extends javax.swing.JFrame {
         
         lstRoba.setModel(m);
        
-     
+     */
         
     } 
     
@@ -623,9 +621,9 @@ public class PrimkaTest extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIzlazActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  /*      DefaultListModel<Roba> r;
+        DefaultListModel<Roba> r;
 
-        if(primka.getEntitet()!=null){
+ /*       if(primka.getEntitet()!=null){
             r = (DefaultListModel<Roba>)lstDodajRobu.getModel();
         }else{
             primka.setEntitet(new Primka());
@@ -643,13 +641,13 @@ public class PrimkaTest extends javax.swing.JFrame {
                 r.addElement(p);
             }
         }
-        lstDodajRobu.repaint(); 
-*/
+        lstDodajRobu.repaint(); */
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
- /*      DefaultListModel<Roba> m = (DefaultListModel<Roba>)lstDodajRobu.getModel();
-        for(Roba r : lstDodajRobu.getSelectedValuesList()){
+        DefaultListModel<Roba> m = (DefaultListModel<Roba>)lstDodajRobu.getModel();
+  /*      for(Roba r : lstDodajRobu.getSelectedValuesList()){
             m.removeElement(r);
             for(Roba mp : primka.getEntitet().getRoba()){
                 if(mp.getId().equals(r.getId())){
@@ -658,24 +656,15 @@ public class PrimkaTest extends javax.swing.JFrame {
                 }
             }
         }
-        
+        //obrada.getEntitet().getPolaznici().removeAll(lstPolazniciNaGrupi.getSelectedValuesList());
 
-        lstDodajRobu.repaint();  */
+        lstDodajRobu.repaint(); */
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
         ucitajRobe();
     }//GEN-LAST:event_btnTraziActionPerformed
-       private boolean nadjiRobu(DefaultListModel<Roba> m, Roba r) {
-        for(int i=0;i<m.size();i++){
-            if(m.get(i).getId().equals(r.getId())){
-                return true;
-            }
-        }
-        return false;
-    
-    
-        } 
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

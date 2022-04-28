@@ -1,11 +1,14 @@
+
 package zavrsni.view;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -33,31 +36,31 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class OtpremnicaProzor extends javax.swing.JFrame {
-
     private ObradaOtpremnica otpremnica;
     private ObradaRoba roba;
     private DecimalFormat nf;
-    private SimpleDateFormat df, fd;
+    private SimpleDateFormat df,fd;
     private DefaultTableModel m;
     private List<Roba> prodaja = new ArrayList<>();
     private BigDecimal iznos = BigDecimal.ZERO;
     private BigDecimal total = BigDecimal.ZERO;
-
+    
+    
     public OtpremnicaProzor() {
         initComponents();
-
+        
         otpremnica = new ObradaOtpremnica();
         roba = new ObradaRoba();
         lstRoba.setCellRenderer(new PrikazRoba());
-
+        
         postavke();
         ucitajKupca();
         ucitajRobe();
-
+        
         test();
-
+        
+        
     }
-
     private void ucitajRobe() {
         DefaultListModel<Roba> r = new DefaultListModel<>();
         List<Roba> entiteti;
@@ -73,9 +76,16 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         lstRoba.setModel(r);
 
     }
-
-    private void postavke() {
-        m = (DefaultTableModel) tblDodajOtpremnicu.getModel();
+    
+     private void postavke() {
+          m = (DefaultTableModel) tblDodajOtpremnicu.getModel();
+         DatePickerSettings dps = new DatePickerSettings(new Locale("hr", "HR"));
+            dps.setFormatForDatesCommonEra("dd.MM.yyyy");
+            dps.setTranslationClear("Očisti");
+            dps.setTranslationToday("Danas");
+          dpsDatum.setSettings(dps);
+         
+        dpsDatum.setDateToToday();
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("hr", "HR"));
         nf = new DecimalFormat("###,###.00", symbols);
 
@@ -100,8 +110,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         }
 
     }
-
-    private void brisanjePolja() {
+        private void brisanjePolja() {
         txtCijena.setText(null);
         txtKolicina.setText(null);
         otpremnica.setEntitet(null);
@@ -109,8 +118,8 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         m.setRowCount(0);
 
     }
-
-    private void ucitajKupca() {
+        
+        private void ucitajKupca() {
         DefaultComboBoxModel<Partner> p = new DefaultComboBoxModel<>();
         Partner partner = new Partner();
         partner.setId(Long.valueOf(0));
@@ -122,16 +131,19 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         });
         cmbPartner.setModel(p);
     }
-
-    private void preuzmiVrijednosti() {
-
+  
+        private void preuzimanjeVrijednosti() {
+        otpremnica.setEntitet(new Otpremnica());
         var p = otpremnica.getEntitet();
-
-        p.setBrojOtpremnice(txtBrojOtpremnice.getText());
-
+        
+          p.setBrojOtpremnice(txtBrojOtpremnice.getText());
+          p.setRoba((Roba) lstRoba.getSelectedValue());
+        
+        
+      
         try {
-
-            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+           
+          p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
         } catch (Exception e) {
 
         }
@@ -142,19 +154,53 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
 
         }
     }
-
-    private void test() {
+           private void test() {
         m = new DefaultTableModel();
         otpremnica = new ObradaOtpremnica();
-        String[] s = {"Šifra", "Kupac", "Naziv", "Količina", "M.Jed", "Cijena", "Br.Otp"};
+        String[] s = {"Šifra", "Naziv","Kupac", "Količina", "M.Jed", "Cijena","Br.Otp","Datum izdavanja"};
         for (String i : s) {
             m.addColumn(i);
         }
-
+        
+       
         tblDodajOtpremnicu.setModel(m);
-
+        
     }
+              private void vrijednosti() throws ParseException {
 
+        otpremnica.setEntitet(new Otpremnica());
+
+        var p = otpremnica.getEntitet();
+        p.setBrojOtpremnice(txtBrojOtpremnice.getText());
+        p.setRoba(lstRoba.getSelectedValue());
+        
+            try {
+
+            p.setCijena(new BigDecimal(nf.parse(txtCijena.getText()).toString()));
+        } catch (Exception e) {
+
+        }
+        p.setKolicina((Integer.parseInt(txtKolicina.getText())));
+       // txtCijena.setText(p.getCijena() != null ? nf.format(p.getCijena()) : "");
+        txtKolicina.setText(p.getKolicina().toString());
+
+        for (int i = 0, rows = tblDodajOtpremnicu.getRowCount(); i < rows; i++) {
+            Integer kol = (Integer) tblDodajOtpremnicu.getValueAt(i, 3);
+            //  BigDecimal cije = (BigDecimal) nf.parseObject((String) (tblDodajPrimku.getValueAt(i, 5)));
+            //  total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
+            Long cije = (Long) nf.parseObject((String) tblDodajOtpremnicu.getValueAt(i, 5));
+           total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
+
+        }
+
+        p.setCijena(total);
+    }
+  
+           
+     
+           
+           
+           
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -178,7 +224,9 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         btnSpremi = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtBrojOtpremnice = new javax.swing.JTextField();
+        dpsDatum = new com.github.lgooddatepicker.components.DatePicker();
         btnIzlaz = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         btnTrazi.setText("Traži");
         btnTrazi.addActionListener(new java.awt.event.ActionListener() {
@@ -218,11 +266,11 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Šifra", "Kupac", "Naziv", "Količina", "M.Jed", "Cijena", "Br.Otp"
+                "Šifra", "Dobavljač", "Naziv", "Količina", "M.Jed", "Cijena", "Br. Otp", "Datum izdavanja"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -247,7 +295,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
             }
         });
 
-        btnDodaj.setText("Unesi");
+        btnDodaj.setText("Dodaj");
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
@@ -269,6 +317,8 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
                 btnIzlazActionPerformed(evt);
             }
         });
+
+        jLabel6.setText("Datum izdavanja");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -312,7 +362,9 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
                                 .addGap(52, 52, 52)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cmbPartner, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jLabel3)
+                                    .addComponent(dpsDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btnIzlaz, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,11 +398,14 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(13, 13, 13)
                         .addComponent(txtBrojOtpremnice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTrazi1)
                     .addComponent(btnDodaj)
-                    .addComponent(btnSpremi))
+                    .addComponent(btnSpremi)
+                    .addComponent(dpsDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -369,7 +424,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstRobaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstRobaMouseClicked
-        if (evt.getButton() == 3) {
+        if(evt.getButton()==3){
             brisanjePolja();
         }
     }//GEN-LAST:event_lstRobaMouseClicked
@@ -382,8 +437,8 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTraziKeyPressed
 
     private void tblDodajOtpremnicuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDodajOtpremnicuMouseClicked
-        if (evt.getButton() == 3) {
-
+        if(evt.getButton()==3){
+            
             brisanjePolja();
         }
     }//GEN-LAST:event_tblDodajOtpremnicuMouseClicked
@@ -397,25 +452,26 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTrazi1ActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        String samobroj = "[,.0-9]+";
+        preuzimanjeVrijednosti();
+        String samobroj = "[0-9]+";
         Pattern pe = Pattern.compile(samobroj);
         Matcher ma = pe.matcher(txtCijena.getText());
         Matcher mi = pe.matcher(txtKolicina.getText());
         if (!mi.matches() || !ma.matches()) {
-            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost");
+            JOptionPane.showMessageDialog(getRootPane(), "Unesite brojčanu vrijednost!");
             return;
         }
 
-        if (txtCijena.getText().trim().isEmpty() || txtKolicina.getText().trim().isEmpty() || cmbPartner.getItemCount() == 0 || txtBrojOtpremnice.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+        if (txtCijena.getText().trim().isEmpty() || txtKolicina.getText().trim().isEmpty() || cmbPartner.getSelectedIndex()== 0 || txtBrojOtpremnice.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke!");
             return;
         }
-        if (lstRoba.getSelectedValue() == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke");
+      if (lstRoba.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Popunite sve podatke!");
             return;
-        }
+        } 
 
-        Object[] red = new Object[7];
+        Object[] red = new Object[8];
         red[0] = lstRoba.getSelectedValue().getId();
         red[1] = lstRoba.getSelectedValue().getNaziv();
         red[2] = cmbPartner.getSelectedItem();
@@ -423,6 +479,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         red[4] = lstRoba.getSelectedValue().getMjernaJedinica();
         red[5] = nf.format(new BigDecimal(txtCijena.getText()));
         red[6] = txtBrojOtpremnice.getText();
+        red[7] = dpsDatum.getDate();
 
         m.addRow(red);
         tblDodajOtpremnicu.setModel(m);
@@ -432,28 +489,18 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnSpremiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpremiActionPerformed
-
+          if(tblDodajOtpremnicu.getRowCount()==0){
+            JOptionPane.showMessageDialog(getRootPane(), "Ako ste unijeli sve podatke, prvo morate dodati podatke u tablicu "
+                    + "pritiskom na tipku 'Dodaj', zatim ih možete spremiti.");
+            
+            return;
+        }  
+        
+        
         try {
 
-            otpremnica.setEntitet(new Otpremnica());
-            var o = otpremnica.getEntitet();
-            o.setBrojOtpremnice(txtBrojOtpremnice.getText());
-            o.setKolicina((Integer.parseInt(txtKolicina.getText())));
-            o.setRoba(prodaja);
-            for (int i = 0, rows = tblDodajOtpremnicu.getRowCount(); i < rows; i++) {
-                Integer kol = (Integer) tblDodajOtpremnicu.getValueAt(i, 3);
-                //   BigDecimal cije = (BigDecimal) nf.parse((String) (tblDodajPrimku.getModel().getValueAt(i, 5)));
-                //   total = total.add(cije.multiply(BigDecimal.valueOf(kol)));
-                Long cije = (Long) nf.parse((String) tblDodajOtpremnicu.getValueAt(i, 5));
-                total = total.add(BigDecimal.valueOf(cije).multiply(BigDecimal.valueOf(kol)));
-
-            }
-            o.setCijena(total);
-
-            //    preuzmiVrijednosti();
+            vrijednosti();
             otpremnica.create();
-
-            JOptionPane.showMessageDialog(getRootPane(), "Stvorena nova otpremnica pod brojem " + otpremnica.getEntitet().getBrojOtpremnice() + " !");
 
             for (int i = 0; i < tblDodajOtpremnicu.getModel().getRowCount(); i++) {
                 Long id = Long.parseLong(tblDodajOtpremnicu.getModel().getValueAt(i, 0).toString());
@@ -468,19 +515,13 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
             Logger.getLogger(OtpremnicaProzor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        /*       for (int i = 0; i < tblDodajOtpremnicu.getModel().getRowCount(); i++) {
-            Long id = Long.parseLong(tblDodajOtpremnicu.getModel().getValueAt(i, 0).toString());
-            Integer kolicina = Integer.parseInt(tblDodajOtpremnicu.getModel().getValueAt(i, 3).toString());
-
-           
-            roba.skidanjeKolicine(id, kolicina);
-        } JOptionPane.showMessageDialog(getRootPane(), "Kreirana otpremnica " + txtBrojOtpremnice.getText()+ " !");*/
+       
 
     }//GEN-LAST:event_btnSpremiActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if (evt.getButton() == 3) {
-
+        if(evt.getButton()==3){
+            
             brisanjePolja();
         }
     }//GEN-LAST:event_formMouseClicked
@@ -489,6 +530,7 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnIzlazActionPerformed
 
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
@@ -497,11 +539,13 @@ public class OtpremnicaProzor extends javax.swing.JFrame {
     private javax.swing.JButton btnTrazi;
     private javax.swing.JButton btnTrazi1;
     private javax.swing.JComboBox<Partner> cmbPartner;
+    private com.github.lgooddatepicker.components.DatePicker dpsDatum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jSat;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;

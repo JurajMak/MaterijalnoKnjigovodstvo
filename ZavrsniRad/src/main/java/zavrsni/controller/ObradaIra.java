@@ -3,6 +3,7 @@ package zavrsni.controller;
 
 import java.util.List;
 import zavrsni.model.Ira;
+import zavrsni.model.Otpremnica;
 import zavrsni.util.ZavrsniException;
 
 /**
@@ -26,12 +27,24 @@ public class ObradaIra extends Obrada<Ira> {
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-       
+        kontrolaBrojRacuna();
+        kontrolaDatumDospijeca();
+        kontrolaPartner();
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
-     
+             if(entitet.getOtp()!=null && entitet.getOtp().size()>0){
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+            for(Otpremnica o:entitet.getOtp()){
+                sb.append(o.getBrojOtpremnice());
+                sb.append("\n");
+            }
+            
+            throw new ZavrsniException("Ne možete obrisati Iru dok ne obrišete povezanu otpremnicu pod brojem" + sb.toString());
+        }
     }
 
    
@@ -43,14 +56,17 @@ public class ObradaIra extends Obrada<Ira> {
     }
 
     private void kontrolaDatumDospijeca() throws ZavrsniException {
-        if (entitet.getDatumDospijeca() == null || entitet.getDatumDospijeca().equals((int)0)) {
+         if(entitet.getDatumIzdavanja()==null){
+            throw new ZavrsniException("Obavezan unos datuma izdavanja!");
+        }
+        if (entitet.getDatumDospijeca() == null) {
             throw new ZavrsniException("Morate unijeti datum dospijeća računa");
         }
     }
 
     private void kontrolaPartner() throws ZavrsniException {
-        if (entitet.getPartner() == null) {
-            throw new ZavrsniException("Obavezan unos šifre Partnera");
+        if (entitet.getPartner() == null || entitet.getPartner().getId().equals(Long.valueOf(0))) {
+            throw new ZavrsniException("Obavezan unos Kupca");
         }
     }
 

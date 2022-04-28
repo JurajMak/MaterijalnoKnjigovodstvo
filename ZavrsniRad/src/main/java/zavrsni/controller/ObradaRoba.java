@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import zavrsni.model.Otpremnica;
+import zavrsni.model.Primka;
 import zavrsni.model.Roba;
 import zavrsni.util.HibernateUtil;
 import zavrsni.util.ZavrsniException;
@@ -41,6 +43,8 @@ public class ObradaRoba extends Obrada<Roba> {
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
+        kontrolaPrimka();
+        kontrolaOtp();
     }
 
     private void unosRobe() throws ZavrsniException {
@@ -61,8 +65,45 @@ public class ObradaRoba extends Obrada<Roba> {
             throw new ZavrsniException("Obavezan unos cijene robe");
         }
     }
+    
+    
+     private void kontrolaPrimka() throws ZavrsniException{
+         if(entitet.getPrimka()!=null && entitet.getPrimka().size()>0){
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+            for(Primka p:entitet.getPrimka()){
+                sb.append(p.getOtpremnicaPrimka());
+                sb.append("\n");
+            }
+            
+            throw new ZavrsniException("Ne možete brisati Robu jer se nalazi na primci" + sb.toString());
+        } 
+  /*    if(entitet.getPrimka()!=null && !entitet.getPrimka().isEmpty()){
+            throw new ZavrsniException("Ne možete brisati robu jer je povezana sa primkom");
+        } */
+    }
+        private void kontrolaOtp()throws ZavrsniException{
+           if(entitet.getOtp()!=null && entitet.getOtp().size()>0){
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+            for(Otpremnica o:entitet.getOtp()){
+                sb.append(o.getBrojOtpremnice());
+                sb.append("\n");
+            }
+            
+            throw new ZavrsniException("Ne možete brisati Robu jer se nalazi na otpremnici" + sb.toString());
+        } 
+    /*    if(entitet.getOtp()!=null && !entitet.getOtp().isEmpty()){
+            throw new ZavrsniException("Ne možete brisati robu jer je povezana sa otpremnicom");
+        } */
+    }
+     
+     
+   
 
-    public void skidanjeKolicine(long id, Integer i/*,BigDecimal c*/) {
+    public void skidanjeKolicine(long id, Integer i/*,BigDecimal cijena*/) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Roba.class, id);

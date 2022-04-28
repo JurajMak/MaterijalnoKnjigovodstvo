@@ -30,53 +30,60 @@
               <Component id="jScrollPane1" pref="798" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jemail" min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="txtEmail" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jIzbornik" min="-2" pref="85" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                          <Component id="btnBrisanje" min="-2" pref="85" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtEmail" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="btnUnesi" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Component id="jIzbornik" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="36" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="btnBrisanje" max="32767" attributes="0"/>
+                                      <Component id="btnPromjena" pref="99" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnUnesi" min="-2" pref="85" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnPromjena" min="-2" pref="94" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jSat" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="txtOIB" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                  <Component id="jOIb" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="txtAdresa" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                  <Component id="jadresa" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="jnaziv" min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="txtNaziv" min="-2" pref="250" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jSat" min="-2" pref="150" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jnaziv" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="txtNaziv" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="jadresa" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="txtAdresa" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="jOIb" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="txtOIB" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="jemail" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jnaziv" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="txtNaziv" min="-2" pref="25" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="jadresa" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="txtAdresa" min="-2" pref="25" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jOIb" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="txtOIB" min="-2" pref="25" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jemail" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="txtEmail" min="-2" pref="25" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -91,10 +98,7 @@
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="jSat" min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jScrollPane1" alignment="0" pref="462" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -230,6 +234,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jSat">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="sat"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

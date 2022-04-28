@@ -32,7 +32,9 @@ public class ZavrsniUtil {
     
     
        public static String generirajBoljiOib() {
-        
+        // DZ
+        // Umjesto spajanja na web stranicu napraviti generiranje u java programskom jeziku
+        // https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf
         try {
             URL url = new URL("http://oib.itcentrala.com/oib-generator/");
             BufferedReader in = new BufferedReader(

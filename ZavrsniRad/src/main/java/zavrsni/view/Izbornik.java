@@ -1,3 +1,4 @@
+
 package zavrsni.view;
 
 import java.text.SimpleDateFormat;
@@ -11,25 +12,24 @@ import zavrsni.util.ZavrsniUtil;
  * @author juraj
  */
 public class Izbornik extends javax.swing.JFrame {
-
+    
     private SimpleDateFormat df;
-
+   
     public Izbornik() {
         initComponents();
         postavke();
-
     }
-
-    private void postavke() {
+        
+     private void postavke(){
         setTitle(ZavrsniUtil.getNaslov("-Izbornik-"));
         jApp.setText(ZavrsniUtil.NAZIV_APP);
-        df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr", "HR"));
+        df = new SimpleDateFormat("dd. MMMM. yyy. HH:mm:ss", new Locale("hr","HR"));
         Vrijeme v = new Vrijeme();
         v.start();
-
+       
     }
 
-    private class Vrijeme extends Thread {
+    private class Vrijeme extends Thread{
 
         @Override
         public void run() {
@@ -37,29 +37,29 @@ public class Izbornik extends javax.swing.JFrame {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-
+                
+               
             }
             run();
         }
-
+        
     }
-
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lblTime = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jApp = new javax.swing.JMenu();
         jIzlaz = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmnOtpremnica = new javax.swing.JMenuItem();
         jmnIra = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jRobno = new javax.swing.JMenu();
         jPrimka = new javax.swing.JMenuItem();
         jmbUra = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jmnPartner = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -68,6 +68,9 @@ public class Izbornik extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblTime.setText("jLabel1");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Eramk.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(159, 30));
 
@@ -93,21 +96,13 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jMenu2.add(jmnOtpremnica);
 
-        jmnIra.setText("Kreiraj Ira");
+        jmnIra.setText("Pregled Ira");
         jmnIra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmnIraActionPerformed(evt);
             }
         });
         jMenu2.add(jmnIra);
-
-        jMenuItem2.setText("Nova Otpremnica");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
 
@@ -128,14 +123,6 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
         jRobno.add(jmbUra);
-
-        jMenuItem1.setText("Nova Primka");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jRobno.add(jMenuItem1);
 
         jMenuBar1.add(jRobno);
 
@@ -170,13 +157,18 @@ public class Izbornik extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 376, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(303, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -185,54 +177,48 @@ public class Izbornik extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jIzlazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIzlazActionPerformed
-        if (JOptionPane.showConfirmDialog(getRootPane(), " Želite li ugasiti program ?", "Materijalno knjigovodstvo",
+         if (JOptionPane.showConfirmDialog(getRootPane(), " Želite li ugasiti program ?", "Materijalno knjigovodstvo",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             System.exit(0);
     }//GEN-LAST:event_jIzlazActionPerformed
 
     private void jmnOtpremnicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnOtpremnicaActionPerformed
-        new OtpremnicaPregled().setVisible(true);
+       new OtpremnicaPregled().setVisible(true);
     }//GEN-LAST:event_jmnOtpremnicaActionPerformed
 
     private void jmnIraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnIraActionPerformed
-        new IraProzor().setVisible(true);
+       new IraProzor().setVisible(true);
     }//GEN-LAST:event_jmnIraActionPerformed
 
     private void jPrimkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPrimkaActionPerformed
         new PrimkaUpdate().setVisible(true);
-
+    
     }//GEN-LAST:event_jPrimkaActionPerformed
 
     private void jmbUraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbUraActionPerformed
-        new UraProzor().setVisible(true);
+       new UraProzor().setVisible(true);
     }//GEN-LAST:event_jmbUraActionPerformed
 
     private void jmnPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnPartnerActionPerformed
-        new UnosPartner().setVisible(true);
+       new UnosPartner().setVisible(true);
     }//GEN-LAST:event_jmnPartnerActionPerformed
 
     private void jmbStanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbStanjeActionPerformed
         new StanjeMenu().setVisible(true);
     }//GEN-LAST:event_jmbStanjeActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        new NovaPrimka().setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new OtpremnicaProzor().setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
+   
+ 
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jApp;
     private javax.swing.JMenuItem jIzlaz;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jPrimka;
     private javax.swing.JMenu jRobno;
     private javax.swing.JMenuItem jmbStanje;

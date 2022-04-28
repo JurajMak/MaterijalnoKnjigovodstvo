@@ -15,7 +15,6 @@ public class RobaComparator implements Comparator<Roba> {
     private Collator cl;
 
     public RobaComparator() {
-         System.out.println("Napravio instancu Collator");
         cl = Collator.getInstance(new Locale("hr", "HR")); //Your locale here
         cl.setStrength(Collator.PRIMARY);
     }

@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -20,31 +19,25 @@ import javax.persistence.OneToOne;
 @Entity
 public class Ira extends Entitet{
     
-    @ManyToOne   
+    @ManyToOne
+    @JoinColumn(name="partner")
     private Partner partner;
     private String brojRacuna;
     private BigDecimal iznos;
     private Date datumIzdavanja;
     private Date datumDospijeca;
-    @OneToMany(mappedBy = "ira")
-    private List<Otpremnica> otpreminca;
-
-    public List<Otpremnica> getOtpreminca() {
-        return otpreminca;
-    }
-
-    public void setOtpreminca(List<Otpremnica> otpreminca) {
-        this.otpreminca = otpreminca;
-    }
-
- 
-  
-
-    
-    
-    
+     @OneToMany(mappedBy = "ira")
+    private List<Otpremnica> otp;
 
     public Ira() {
+    }
+
+    public List<Otpremnica> getOtp() {
+        return otp;
+    }
+
+    public void setOtp(List<Otpremnica> otp) {
+        this.otp = otp;
     }
 
     

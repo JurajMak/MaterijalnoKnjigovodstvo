@@ -30,13 +30,12 @@ public class ObradaPrimka  extends Obrada<Primka>{
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-      //unosPrimke();
+      unosPrimke();
         
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
-        
     }
     
     private void unosPrimke() throws ZavrsniException{
@@ -48,37 +47,30 @@ public class ObradaPrimka  extends Obrada<Primka>{
             throw new ZavrsniException("Obavezan unos količine");
         }
         
-          List<Primka> racun = session.createQuery("from Primka u " + "where u.otpremnicaPrimka=:otpremnicaPrimka")
-                .setParameter("otpremnicaPrimka", entitet.getOtpremnicaPrimka()).list();
+        if(entitet.getRoba()== null || entitet.getRoba().getId().equals(Long.valueOf(0))){
+            throw new ZavrsniException("Obavezan unos Robe");
+        }
         
-        if(racun!= null && !racun.isEmpty()){
-            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getOtpremnicaPrimka()); }
+        if(entitet.getOtpremnicaPrimka() == null || entitet.getOtpremnicaPrimka().trim().isEmpty()){
+            throw new ZavrsniException("Obavezan unos broja Otpremnice-Primke");
+        }
+      
         
         
     }
-
-   /* 
-        public void dodavanje(Long id,Ura u) {
+     
+       public void dodavanje(long id,Integer kolicina,BigDecimal cijena,Roba roba,Ura ura) {
         Session s = HibernateUtil.getSession();
         Transaction tr = s.beginTransaction();
         entitet = s.load(Primka.class, id);
-        entitet.setUra(u);
-        
-        
+        entitet.setKolicina(entitet.getKolicina() - kolicina);
+        entitet.setCijena(cijena);
+        entitet.setRoba(roba);
+        entitet.setUra(ura);
          tr.commit();
     
     }
-    */
     
-    
-    public List<Primka> read(String uvjet) {
-        return session.createQuery("from Primka p "
-                + " where concat(p.otpremnicaPrimka) "
-                + " like :uvjet order by p.otpremnicaPrimka")
-                .setParameter("uvjet", "%" + uvjet + "%")
-                .setMaxResults(50)
-                .list();
-    }
     
     
 }

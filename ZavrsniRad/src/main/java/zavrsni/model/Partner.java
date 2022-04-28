@@ -1,7 +1,9 @@
 
 package zavrsni.model;
 
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -14,6 +16,10 @@ public class Partner extends Entitet {
     private String adresa;
     private String oib;
     private String email;
+     @OneToMany(mappedBy = "partner")
+    private List <Ira> ira;
+    @OneToMany(mappedBy = "partner")
+    private List<Ura> ura;
 
     public String getEmail() {
         return email;
@@ -50,6 +56,22 @@ public class Partner extends Entitet {
     @Override
     public String toString() {
         return naziv;
+    }
+
+    public List<Ira> getIra() {
+        return ira;
+    }
+
+    public void setIra(List<Ira> ira) {
+        this.ira = ira;
+    }
+
+    public List<Ura> getUra() {
+        return ura;
+    }
+
+    public void setUra(List<Ura> ura) {
+        this.ura = ura;
     }
 
     

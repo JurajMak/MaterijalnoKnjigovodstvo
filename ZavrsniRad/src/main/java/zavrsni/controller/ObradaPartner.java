@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package zavrsni.controller;
 
 import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import zavrsni.model.Ira;
 import zavrsni.model.Partner;
+import zavrsni.model.Ura;
 import zavrsni.util.OibValidator;                                                                           
 import zavrsni.util.ZavrsniException;
 
@@ -36,7 +35,7 @@ public class ObradaPartner extends Obrada<Partner> {
     @Override
     protected void kontrolaCreate() throws ZavrsniException {
         unosPartnera();
-      //   oibPartner();
+       //  oibPartner();
         kontrolaEmail();
     }
 
@@ -49,6 +48,26 @@ public class ObradaPartner extends Obrada<Partner> {
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
+         if(entitet.getUra()!=null){
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+            for(Ura u:entitet.getUra()){
+                sb.append(u.getBrojRacuna());
+                sb.append("\n");
+            }
+             throw new ZavrsniException("Ne možete obrisati partnera dok ne obrišete povezane Ura-e pod brojem" + sb.toString());
+        }
+         if(entitet.getIra()!=null){
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+            for(Ira i:entitet.getIra()){
+                sb.append(i.getBrojRacuna());
+                sb.append("\n");
+            }
+             throw new ZavrsniException("Ne možete obrisati partnera dok ne obrišete povezane Ira-e pod brojem" + sb.toString());
+        }
     }
  
     private void unosPartnera() throws ZavrsniException{

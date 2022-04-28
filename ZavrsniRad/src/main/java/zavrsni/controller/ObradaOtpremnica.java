@@ -28,30 +28,31 @@ public class ObradaOtpremnica extends Obrada<Otpremnica> {
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniException {
-       // kontrolaOtpremnice();
+        kontrolaOtpremnice();
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniException {
-         
     }
 
     private void kontrolaOtpremnice() throws ZavrsniException {
         
-           List<Otpremnica> racun = session.createQuery("from Otpremnica u " + "where u.brojOtpremnice=:brojOtpremnice")
-                .setParameter("brojOtpremnice", entitet.getBrojOtpremnice()).list();
-        
-        if(racun!= null && !racun.isEmpty()){
-            throw new ZavrsniException("Broj računa već postoji " + racun.get(0).getBrojOtpremnice()); }
-        
- 
-        if (entitet.getKolicina() == 0 || entitet.getKolicina() == null) {
-            throw new ZavrsniException("Obavezan unos količine!");
-        }
           if(entitet.getCijena()== null || entitet.getCijena().compareTo(BigDecimal.ZERO)<0){
             throw new ZavrsniException("Obavezan unos cijene robe");
         }
-       
+        
+        if(entitet.getKolicina()==null || entitet.getKolicina()==0){
+            throw new ZavrsniException("Obavezan unos količine");
+        }
+        
+        if(entitet.getRoba()== null || entitet.getRoba().getId().equals(Long.valueOf(0))){
+            throw new ZavrsniException("Obavezan unos Robe");
+        }
+        
+        if(entitet.getBrojOtpremnice()== null || entitet.getBrojOtpremnice().trim().isEmpty()){
+            throw new ZavrsniException("Obavezan unos broja otpremnice");
+        }
+        
     }
 
 }

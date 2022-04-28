@@ -39,45 +39,38 @@ public class PocetniInsert {
         Roba r;
         Otpremnica ot;
         Ira ir;
-
         for (int i = 0; i < partneri.size(); i++) {
             p = partneri.get(i);
             r = robe.get(i);
-
             for (int j = 0; j < ((int) Math.random() * (5 - 2) + 1); j++) {
                 u = new Ura();
                 pr = new Primka();
                 ot = new Otpremnica();
                 ir = new Ira();
-
                 u.setPartner(p);
                 u.setBrojRacuna((i + 1) + "/2022");
                 u.setDatumDospijeca(new Date());
                 u.setDatumIzdavanja(new Date());
                 u.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
-                //u.setPrimka(pr);
                 pr.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 pr.setKolicina(faker.number().numberBetween(10, 100));
                 pr.setUra(u);
-                pr.setRoba(robe);
+                pr.setRoba(r);
                 pr.setOtpremnicaPrimka((i + 1)+"/2022");
                 ir.setBrojRacuna((i + 1) + "/2022");
                 ir.setDatumDospijeca(new Date());
                 ir.setDatumIzdavanja(new Date());
                 ir.setIznos(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ir.setPartner(p);
-              //  ir.setOtpremnica(ot);
                 ot.setCijena(new BigDecimal(Math.random() * (1000 - 100) + 100));
                 ot.setKolicina(faker.number().numberBetween(10, 100));
                 ot.setBrojOtpremnice((i + 1) + "/2022");
                 ot.setIra(ir);
-                ot.setRoba(robe);
-
+                ot.setRoba(r);
                 session.save(u);
                 session.save(pr);
                 session.save(ir);
                 session.save(ot);
-
             }
 
         }
@@ -93,7 +86,10 @@ public class PocetniInsert {
             p = new Partner();
             p.setNaziv(faker.company().name());
             p.setAdresa(faker.address().fullAddress());
-            p.setOib(ZavrsniUtil.generirajBoljiOib());
+            p.setOib(OibGenerator.generirajOib(null));
+            p.setEmail(p.getNaziv().substring(0, 0).toLowerCase()
+                    + p.getNaziv().toLowerCase().replace(" ", "").replace("-", "").replace(",", "").replace(".", "")
+                    + "@gmail.hr");
             session.save(p);
             partneri.add(p);
 
